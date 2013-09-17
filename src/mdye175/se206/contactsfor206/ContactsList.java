@@ -1,9 +1,11 @@
 package mdye175.se206.contactsfor206;
 
+import java.io.Serializable;
+
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-public class ContactsList extends ArrayAdapter<Contact> {
+public class ContactsList extends ArrayAdapter<Contact>{
 
 	public ContactsList(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);

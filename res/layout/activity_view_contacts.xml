@@ -12,7 +12,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/nameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Large Text"
@@ -22,7 +22,8 @@
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/activity_vertical_margin" >
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:dividerHeight="50dp" >
 
         </ListView>
 

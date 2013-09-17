@@ -1,6 +1,7 @@
 package mdye175.se206.contactsfor206;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -11,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -45,6 +49,20 @@ public class ViewContacts extends FragmentActivity implements
 		viewContacts = (ListView)findViewById(R.id.listView1);
 		viewContacts.setAdapter(contacts);
 		
+		//Set up a listner to change view when a contact is selected
+		viewContacts.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long id) {
+				//Load the activity for the relevant contact.
+				Intent intent = new Intent();
+				intent.setClass(ViewContacts.this, ViewContact.class);
+				Bundle b = new Bundle();
+				b.putSerializable("contact",contacts.getItem((int) id));
+				intent.putExtras(b);
+				startActivity(intent);
+			}		
+		});
 		
 		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getActionBar();
