@@ -6,9 +6,9 @@ import android.widget.TextView;
 
 public class Contact implements Serializable {
 	//Dummy data, TODO
-	private String name;
-	private String number;
-	private String email;
+	private String name = "";
+	private String number = "";
+	private String email = "";
 	
 	public Contact(String name,String number){
 		this.name = name;
@@ -28,9 +28,6 @@ public class Contact implements Serializable {
 		return this.name.compareTo(other.name);
 	}
 	
-	private void loadName(){
-		
-	}
 	
 	/**
 	 * Takes a ViewContact activity and populates it's display with the data relevant to this contact.
@@ -38,13 +35,13 @@ public class Contact implements Serializable {
 	 * @param contact
 	 * @return
 	 */
-	public ViewContact populateContact(ViewContact contact){
+	public void populateContact(ViewContact contact){
 		TextView nameText = (TextView)contact.findViewById(R.id.nameText);
 		TextView numberText = (TextView)contact.findViewById(R.id.numberText);
+		TextView emailText = (TextView)contact.findViewById(R.id.emailText);
+		
 		nameText.setText(name);
 		numberText.setText(number);
-		
-		
-		return null;
+		emailText.setText(email);
 	}
 }
