@@ -2,6 +2,7 @@ package mdye175.se206.contactsfor206;
 
 import android.animation.ObjectAnimator;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,18 +38,19 @@ public class ViewContacts extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_contacts);
-
+		
+		viewContacts = (ListView)findViewById(R.id.listView1);
+		
 		//Set up contacts objects
 		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
-		contacts.add(new Contact("Tom","1"));
-		contacts.add(new Contact("Bob","2"));
-		contacts.add(new Contact("Bill","3"));
-		contacts.add(new Contact("Alice","4"));
-		contacts.add(new Contact("Frank","5"));
-		contacts.add(new Contact("Joe","6"));
+		contacts.add(new Contact(viewContacts.getContext(), "Tom","1"));
+		contacts.add(new Contact(viewContacts.getContext(),"Bob","2"));
+		contacts.add(new Contact(viewContacts.getContext(),"Bill","3"));
+		contacts.add(new Contact(viewContacts.getContext(),"Alice","4"));
+		contacts.add(new Contact(viewContacts.getContext(),"Frank","5"));
+		contacts.add(new Contact(viewContacts.getContext(),"Joe","6"));
 		
 		//Set up the list of contacts.
-		viewContacts = (ListView)findViewById(R.id.listView1);
 		viewContacts.setAdapter(contacts);
 		
 		//Set up a listner to change view when a contact is selected
@@ -56,8 +59,14 @@ public class ViewContacts extends FragmentActivity implements
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long id) {
 				//Animate the item to make it open
-				ObjectAnimator expand = ObjectAnimator.ofInt(arg0.getItemAtPosition(arg2), "", 200);
-				/*//Load the activity for the relevant contact.
+				((Contact)arg0.getItemAtPosition(arg2)).setMinimumHeight(200);
+				
+				/*ObjectAnimator expand = ObjectAnimator.ofFloat(arg0.getItemAtPosition(arg2), "scaleY",1f,200f);
+				
+				expand.setDuration(1000);
+				expand.start();
+				
+				//Load the activity for the relevant contact.
 				Intent intent = new Intent();
 				intent.setClass(ViewContacts.this, ViewContact.class);
 				Bundle b = new Bundle();

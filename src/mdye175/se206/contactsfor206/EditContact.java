@@ -5,16 +5,15 @@ import android.app.Activity;
 import android.view.Menu;
 import android.widget.TextView;
 
-public class ViewContact extends Activity {
+public class EditContact extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_contact);
+		setContentView(R.layout.activity_edit_contact);
 		
 		//Get the id that we are displaying
 		Bundle b = getIntent().getExtras();
-		System.out.println("cheese");
 		Contact contact = (Contact) b.getSerializable("contact");
 		
 		contact.populateContact(this);
