@@ -1,5 +1,6 @@
 package mdye175.se206.contactsfor206;
 
+import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,13 +55,15 @@ public class ViewContacts extends FragmentActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long id) {
-				//Load the activity for the relevant contact.
+				//Animate the item to make it open
+				ObjectAnimator expand = ObjectAnimator.ofInt(arg0.getItemAtPosition(arg2), "", 200);
+				/*//Load the activity for the relevant contact.
 				Intent intent = new Intent();
 				intent.setClass(ViewContacts.this, ViewContact.class);
 				Bundle b = new Bundle();
 				b.putSerializable("contact",contacts.getItem((int) id));
 				intent.putExtras(b);
-				startActivity(intent);
+				startActivity(intent);*/
 			}		
 		});
 		

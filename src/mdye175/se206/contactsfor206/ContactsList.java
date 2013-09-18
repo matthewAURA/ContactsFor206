@@ -1,6 +1,5 @@
 package mdye175.se206.contactsfor206;
 
-import java.io.Serializable;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
