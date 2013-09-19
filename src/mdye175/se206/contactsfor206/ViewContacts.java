@@ -59,13 +59,13 @@ public class ViewContacts extends FragmentActivity implements
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long id) {
 				//Animate the item to make it open
-				((Contact)arg0.getItemAtPosition(arg2)).setMinimumHeight(200);
+				//((Contact)arg0.getItemAtPosition(arg2)).setMinimumHeight(200);
 				
-				/*ObjectAnimator expand = ObjectAnimator.ofFloat(arg0.getItemAtPosition(arg2), "scaleY",1f,200f);
+				ObjectAnimator expand = ObjectAnimator.ofFloat(arg0.getItemAtPosition(arg2), "minHeight",1f,200f);
 				
 				expand.setDuration(1000);
 				expand.start();
-				
+				/*
 				//Load the activity for the relevant contact.
 				Intent intent = new Intent();
 				intent.setClass(ViewContacts.this, ViewContact.class);

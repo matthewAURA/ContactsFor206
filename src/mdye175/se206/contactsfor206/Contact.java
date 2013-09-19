@@ -52,7 +52,7 @@ public class Contact extends View implements Serializable {
 		nameText.setText(name);
 		numberText.setText(number);
 		
-		
 		return null;
 	}
+	
 }
