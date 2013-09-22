@@ -6,7 +6,8 @@
     tools:context=".ViewContacts"
     tools:ignore="MergeRootFrame" >
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
@@ -15,6 +16,8 @@
             android:id="@+id/nameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -22,12 +25,17 @@
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:dividerHeight="5dp" >
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/nameText"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:dividerHeight="5dp"
+            android:paddingTop="@dimen/activity_vertical_margin" >
 
         </ListView>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
-

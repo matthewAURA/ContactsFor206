@@ -1,31 +1,30 @@
 package mdye175.se206.contactsfor206;
 
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class ViewContacts extends FragmentActivity implements
-		ActionBar.OnNavigationListener {
+		ActionBar.OnNavigationListener, AnimatorUpdateListener {
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -34,46 +33,66 @@ public class ViewContacts extends FragmentActivity implements
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	private ContactsList contacts;
 	private ListView viewContacts;
+	private AnimatorUpdateListener update = this;
+	private Contact openContact;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_contacts);
 		
 		viewContacts = (ListView)findViewById(R.id.listView1);
+
 		
 		//Set up contacts objects
 		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
-		contacts.add(new Contact(viewContacts.getContext(), "Tom","1"));
+		
+		//Set up the list of contacts.
+		viewContacts.setAdapter(contacts);
+		contacts.add(new Contact(viewContacts.getContext(),"Tom","1"));
 		contacts.add(new Contact(viewContacts.getContext(),"Bob","2"));
 		contacts.add(new Contact(viewContacts.getContext(),"Bill","3"));
 		contacts.add(new Contact(viewContacts.getContext(),"Alice","4"));
 		contacts.add(new Contact(viewContacts.getContext(),"Frank","5"));
 		contacts.add(new Contact(viewContacts.getContext(),"Joe","6"));
 		
-		//Set up the list of contacts.
-		viewContacts.setAdapter(contacts);
+
 		
-		//Set up a listner to change view when a contact is selected
+		//Set up a listener to change view when a contact is selected
 		viewContacts.setOnItemClickListener(new OnItemClickListener(){
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long id) {
+				final Contact contact = ((Contact)arg0.getItemAtPosition(arg2));
+				ObjectAnimator anim;
+				System.out.println(contact.getDrawHeight());
+				if (!contact.isExpanded()){
 				//Animate the item to make it open
-				//((Contact)arg0.getItemAtPosition(arg2)).setMinimumHeight(200);
-				
-				ObjectAnimator expand = ObjectAnimator.ofFloat(arg0.getItemAtPosition(arg2), "minHeight",1f,200f);
-				
-				expand.setDuration(1000);
-				expand.start();
-				/*
+					anim = ObjectAnimator.ofInt(contact, "drawHeight", contact.getDrawHeight(), Contact.Heights.big.getValue());
+					contact.toggleExpanded();
+				}else{
+					anim = ObjectAnimator.ofInt(contact, "drawHeight", contact.getDrawHeight(), Contact.Heights.small.getValue());
+					contact.toggleExpanded();
+				}
+				anim.setDuration(200);
+				anim.addUpdateListener(update);
+				anim.start();
+
+			}		
+		});
+		viewContacts.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long id) {
 				//Load the activity for the relevant contact.
 				Intent intent = new Intent();
-				intent.setClass(ViewContacts.this, ViewContact.class);
+				intent.setClass(ViewContacts.this, EditContact.class);
 				Bundle b = new Bundle();
 				b.putSerializable("contact",contacts.getItem((int) id));
 				intent.putExtras(b);
-				startActivity(intent);*/
-			}		
+				return false;
+			}
+			
 		});
 		
 		// Set up the action bar to show a dropdown list.
@@ -153,6 +172,12 @@ public class ViewContacts extends FragmentActivity implements
 					ARG_SECTION_NUMBER)));
 			return rootView;
 		}
+	}
+
+	@Override
+	public void onAnimationUpdate(ValueAnimator arg0) {
+		viewContacts.invalidateViews();
+		
 	}
 
 }
