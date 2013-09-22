@@ -10,8 +10,16 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.ViewParent;
 import android.widget.TextView;
 
+<<<<<<< HEAD
 public class Contact extends View implements Serializable {
 
+=======
+public class Contact implements Serializable {
+	//Dummy data, TODO
+	private String name = "";
+	private String number = "";
+	private String email = "";
+>>>>>>> master
 	
 	public static enum Heights{
 		small(100),big(250);
@@ -68,6 +76,7 @@ public class Contact extends View implements Serializable {
 	int compareTo(Contact other){
 		return this.name.compareTo(other.name);
 	}
+<<<<<<< HEAD
 
 	public String getName() {
 		return name;
@@ -108,6 +117,24 @@ public class Contact extends View implements Serializable {
 
 	public void setDrawHeight(int drawHeight) {
 		this.drawHeight = drawHeight;
+=======
+	
+	
+	/**
+	 * Takes a ViewContact activity and populates it's display with the data relevant to this contact.
+	 * 
+	 * @param contact
+	 * @return
+	 */
+	public void populateContact(ViewContact contact){
+		TextView nameText = (TextView)contact.findViewById(R.id.nameText);
+		TextView numberText = (TextView)contact.findViewById(R.id.numberText);
+		TextView emailText = (TextView)contact.findViewById(R.id.emailText);
+		
+		nameText.setText(name);
+		numberText.setText(number);
+		emailText.setText(email);
+>>>>>>> master
 	}
 	
 

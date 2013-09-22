@@ -45,6 +45,15 @@ public class ViewContacts extends FragmentActivity implements
 		
 		//Set up contacts objects
 		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
+<<<<<<< HEAD
+=======
+		contacts.add(new Contact("Tom","1","tom@gmail.com"));
+		contacts.add(new Contact("Bob","2"));
+		contacts.add(new Contact("Bill","3"));
+		contacts.add(new Contact("Alice","4","alice@gmail.com"));
+		contacts.add(new Contact("Frank","5"));
+		contacts.add(new Contact("Joe","6"));
+>>>>>>> master
 		
 		//Set up the list of contacts.
 		viewContacts.setAdapter(contacts);
