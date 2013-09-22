@@ -1,3 +1,12 @@
+<<<<<<< HEAD:res/layout/contact_view.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Contact" >
+=======
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RelativeLayout1"
@@ -9,20 +18,29 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ViewContact" >
+>>>>>>> master:res/layout/activity_view_contact.xml
 
     <TextView
         android:id="@+id/nameText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+    
     <TextView
         android:id="@+id/numberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD:res/layout/contact_view.xml
+        android:alpha="13421772"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colour_ph" />
+
+</LinearLayout>
+=======
         android:layout_alignLeft="@+id/nameText"
         android:layout_below="@+id/nameText"
         android:text="Medium Text"
@@ -71,3 +89,4 @@
     </SlidingDrawer>
 
 </RelativeLayout>
+>>>>>>> master:res/layout/activity_view_contact.xml
