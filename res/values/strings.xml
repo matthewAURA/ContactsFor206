@@ -8,5 +8,6 @@
     <string name="title_section3">Section 3</string>
     <string name="title_activity_view_contact">ViewContact</string>
     <string name="hello_world">Hello world!</string>
+    <color name="colour_ph">#999999</color>
 
 </resources>

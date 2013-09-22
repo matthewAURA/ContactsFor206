@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="mdye175.se206.contactsfor206.ViewContact"
+            android:name="mdye175.se206.contactsfor206.EditContact"
             android:label="@string/title_activity_view_contact" >
         </activity>
     </application>
