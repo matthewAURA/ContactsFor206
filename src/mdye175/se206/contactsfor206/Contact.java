@@ -3,11 +3,10 @@ package mdye175.se206.contactsfor206;
 import java.io.Serializable;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewParent;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -59,6 +58,17 @@ public class Contact extends View implements Serializable {
 	    name.setText(this.name);
 	    TextView number = (TextView)view.findViewById(R.id.numberText);
 	    number.setText(this.number);
+	    TextView email = (TextView)view.findViewById(R.id.emailText);
+	    ImageView image = (ImageView)view.findViewById(R.id.imageView1);
+	    
+	    if (this.isExpanded){
+	    	email.setText(this.email);
+	    	image.setVisibility(View.VISIBLE);
+	    }else{
+	    	email.setText("");
+	    	image.setVisibility(View.GONE);
+	    }
+	    
 	}
 	
 	public String toString(){

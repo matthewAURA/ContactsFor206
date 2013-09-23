@@ -7,25 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
 
 public class ContactsList extends ArrayAdapter<Contact>{
 
 	protected LayoutInflater fInflater;
-    
+    private ContactComparator compare;
     
 	public ContactsList(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
         fInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void add(Contact newContact){
 		super.add(newContact);
-		super.sort(new ContactComparator());
+		super.sort(compare);
 	}
 
+	public void sortMethod(ContactComparator comp){
+		this.compare = comp;
+	}
+	
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {

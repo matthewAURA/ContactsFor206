@@ -1,6 +1,5 @@
 package mdye175.se206.contactsfor206;
 
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
@@ -13,8 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnLongClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -34,7 +31,6 @@ public class ViewContacts extends FragmentActivity implements
 	private ContactsList contacts;
 	private ListView viewContacts;
 	private AnimatorUpdateListener update = this;
-	private Contact openContact;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,14 +41,14 @@ public class ViewContacts extends FragmentActivity implements
 		
 		//Set up contacts objects
 		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
-
+		contacts.sortMethod(new NameComparator());
 		viewContacts.setAdapter(contacts);
-		contacts.add(new Contact(viewContacts.getContext(),"Tom","1"));
-		contacts.add(new Contact(viewContacts.getContext(),"Bob","2"));
-		contacts.add(new Contact(viewContacts.getContext(),"Bill","3"));
-		contacts.add(new Contact(viewContacts.getContext(),"Alice","4"));
-		contacts.add(new Contact(viewContacts.getContext(),"Frank","5"));
-		contacts.add(new Contact(viewContacts.getContext(),"Joe","6"));
+		contacts.add(new Contact(viewContacts.getContext(),"Tom","34 2135 243534"));
+		contacts.add(new Contact(viewContacts.getContext(),"Bob","13243 31145"));
+		contacts.add(new Contact(viewContacts.getContext(),"Bill","1750 51351 51"));
+		contacts.add(new Contact(viewContacts.getContext(),"Alice","4141 5165 675","alice@gmail.com"));
+		contacts.add(new Contact(viewContacts.getContext(),"Frank","51564742"));
+		contacts.add(new Contact(viewContacts.getContext(),"Joe","","joe@meat.com"));
 
 			
 		//Set up a listener to change view when a contact is selected

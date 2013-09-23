@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 public class ViewContact extends Activity {
@@ -23,7 +21,7 @@ public class ViewContact extends Activity {
 		Contact contact = (Contact) b.getSerializable("contact");
 		contact.populateContact(this);
 	
-		TextView nameText = (TextView)this.findViewById(R.id.nameText);
+		//TextView nameText = (TextView)this.findViewById(R.id.nameText);
 		final TextView numberText = (TextView)this.findViewById(R.id.numberText);
 		//TextView emailText = (TextView)this.findViewById(R.id.emailText);
 	
