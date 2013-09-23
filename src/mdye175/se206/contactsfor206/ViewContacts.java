@@ -45,17 +45,7 @@ public class ViewContacts extends FragmentActivity implements
 		
 		//Set up contacts objects
 		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
-<<<<<<< HEAD
-=======
-		contacts.add(new Contact("Tom","1","tom@gmail.com"));
-		contacts.add(new Contact("Bob","2"));
-		contacts.add(new Contact("Bill","3"));
-		contacts.add(new Contact("Alice","4","alice@gmail.com"));
-		contacts.add(new Contact("Frank","5"));
-		contacts.add(new Contact("Joe","6"));
->>>>>>> master
-		
-		//Set up the list of contacts.
+
 		viewContacts.setAdapter(contacts);
 		contacts.add(new Contact(viewContacts.getContext(),"Tom","1"));
 		contacts.add(new Contact(viewContacts.getContext(),"Bob","2"));
@@ -63,9 +53,8 @@ public class ViewContacts extends FragmentActivity implements
 		contacts.add(new Contact(viewContacts.getContext(),"Alice","4"));
 		contacts.add(new Contact(viewContacts.getContext(),"Frank","5"));
 		contacts.add(new Contact(viewContacts.getContext(),"Joe","6"));
-		
 
-		
+			
 		//Set up a listener to change view when a contact is selected
 		viewContacts.setOnItemClickListener(new OnItemClickListener(){
 			@Override
