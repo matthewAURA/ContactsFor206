@@ -16,7 +16,7 @@ public class ViewContact extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view_contact);
+		setContentView(R.layout.contact_view);
 		
 		//Get the id that we are displaying
 		Bundle b = getIntent().getExtras();
@@ -25,7 +25,7 @@ public class ViewContact extends Activity {
 	
 		TextView nameText = (TextView)this.findViewById(R.id.nameText);
 		final TextView numberText = (TextView)this.findViewById(R.id.numberText);
-		TextView emailText = (TextView)this.findViewById(R.id.emailText);
+		//TextView emailText = (TextView)this.findViewById(R.id.emailText);
 	
 		
 		numberText.setOnClickListener(new OnClickListener(){
