@@ -4,15 +4,22 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class ViewContacts extends FragmentActivity implements
 		ActionBar.OnNavigationListener, AnimatorUpdateListener {
@@ -38,7 +45,6 @@ public class ViewContacts extends FragmentActivity implements
 		//Set up contacts objects
 		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
 		viewContacts.setAdapter(contacts);
-		contacts.add(new Contact(viewContacts.getContext(),new NameProperty(viewContacts.getContext()),new PhoneNumberProperty(viewContacts.getContext(), "", null)));
 		contacts.add(new Contact(viewContacts.getContext(),"Tom","34 2135 243534"));
 		contacts.add(new Contact(viewContacts.getContext(),"Bob","13243 31145"));
 		contacts.add(new Contact(viewContacts.getContext(),"Bill","1750 51351 51"));
