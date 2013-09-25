@@ -17,7 +17,8 @@
         android:theme="@style/Theme.Actionbar" >
         <activity
             android:name="mdye175.se206.contactsfor206.ViewContacts"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Actionbar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

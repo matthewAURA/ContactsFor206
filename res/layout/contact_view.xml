@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".Contact" >
 
@@ -16,34 +16,27 @@
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/numberText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/nameText"
-        android:alpha="13421772"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/colour_ph" />
-
-    <TextView
-        android:id="@+id/emailText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/numberText"
-        android:alpha="13421772"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/colour_ph" />
-
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/numberText"
+        android:layout_below="@+id/nameText"
         android:src="@drawable/ic_launcher" />
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@+id/imageView1"
+        android:clickable="false"
+        android:drawSelectorOnTop="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" >
+
+    </ListView>
 
 </RelativeLayout>

@@ -1,12 +1,17 @@
 package mdye175.se206.contactsfor206;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewParent;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -24,48 +29,49 @@ public class Contact extends View implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private String number= "";
-	private String email = "";
+	private NameProperty name;
+	private PhoneNumberProperty number;
+	private EmailProperty email;
 	private boolean isExpanded;
 	private int drawHeight = Contact.Heights.small.getValue();
     
 
 	public Contact(Context context) {
 		super(context);
-
 	}
 
-	public Contact(Context context, String name,String number){
+	public Contact(Context context, NameProperty name,PhoneNumberProperty number){
 		this(context);
 		this.name = name;
 		this.number = number;
 	}
 	
-	public Contact(Context context, String name,String number,String email){
+	public Contact(Context context, NameProperty name,PhoneNumberProperty number,EmailProperty email){
 		this(context,name,number);
 		this.email = email;
 	}
 
-	public int calcHeight(ViewParent parent){
-		Rect r = new Rect();
-		parent.getChildVisibleRect(this, r, null);
-		return this.drawHeight = r.height();
-	}
-	
+
 	public void populateCompact(View view){
 	    TextView name = (TextView)view.findViewById(R.id.nameText);
-	    name.setText(this.name);
-	    TextView number = (TextView)view.findViewById(R.id.numberText);
-	    number.setText(this.number);
-	    TextView email = (TextView)view.findViewById(R.id.emailText);
+	    ListView details = (ListView)view.findViewById(R.id.listView1);
 	    ImageView image = (ImageView)view.findViewById(R.id.imageView1);
+	    //Always display name as contacts must have a name
+	    name.setText(this.getName());
+
+
+	    //Add fields to listview if not null
+	    if (this.getName().length() > 0){
+	    	details.addView(name);
+	    }
+	    if (this.getEmail().length() > 0){
+	    	details.addView(this.number);
+	    }
+	    
 	    
 	    if (this.isExpanded){
-	    	email.setText(this.email);
 	    	image.setVisibility(View.VISIBLE);
 	    }else{
-	    	email.setText("");
 	    	image.setVisibility(View.GONE);
 	    }
 	    
@@ -81,27 +87,27 @@ public class Contact extends View implements Serializable {
 
 
 	public String getName() {
-		return name;
+		return name.toString();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = new NameProperty(this.getContext(), name, "name");
 	}
 
 	public String getNumber() {
-		return number;
+		return number.toString();
 	}
 
 	public void setNumber(String number) {
-		this.number = number;
+		this.number = new PhoneNumberProperty(this.getContext(), number, "number");
 	}
 
 	public String getEmail() {
-		return email;
+		return email.toString();
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = new EmailProperty(this.getContext(), email, "email");
 	}
 
 	public boolean isExpanded() {
@@ -119,24 +125,6 @@ public class Contact extends View implements Serializable {
 
 	public void setDrawHeight(int drawHeight) {
 		this.drawHeight = drawHeight;
-	}
-	
-	
-	/**
-	 * Takes a ViewContact activity and populates it's display with the data relevant to this contact.
-	 * 
-	 * @param contact
-	 * @return
-	 */
-	public void populateContact(ViewContact contact){
-		TextView nameText = (TextView)contact.findViewById(R.id.nameText);
-		TextView numberText = (TextView)contact.findViewById(R.id.numberText);
-		//TextView emailText = (TextView)contact.findViewById(R.id.emailText);
-		
-		nameText.setText(name);
-		numberText.setText(number);
-		//emailText.setText(email);
-
 	}
 	
 
