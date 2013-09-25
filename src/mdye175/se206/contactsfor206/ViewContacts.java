@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -31,17 +32,18 @@ public class ViewContacts extends FragmentActivity implements
 	private ContactsList contacts;
 	private ListView viewContacts;
 	private AnimatorUpdateListener update = this;
+	private SortMethodList sort;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+				
 		setContentView(R.layout.activity_view_contacts);
-		
 		viewContacts = (ListView)findViewById(R.id.listView1);
-
+		sort = new SortMethodList(this,android.R.layout.simple_list_item_1);
 		
 		//Set up contacts objects
 		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
-		contacts.sortMethod(new NameComparator());
 		viewContacts.setAdapter(contacts);
 		contacts.add(new Contact(viewContacts.getContext(),"Tom","34 2135 243534"));
 		contacts.add(new Contact(viewContacts.getContext(),"Bob","13243 31145"));
@@ -93,16 +95,11 @@ public class ViewContacts extends FragmentActivity implements
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
+		actionBar.setTitle("Sort By...");
 		// Set up the dropdown list navigation in the action bar.
-		actionBar.setListNavigationCallbacks(
-		// Specify a SpinnerAdapter to populate the dropdown list.
-				new ArrayAdapter<String>(actionBar.getThemedContext(),
-						android.R.layout.simple_list_item_1,
-						android.R.id.text1, new String[] {
-								getString(R.string.title_section1),
-								getString(R.string.title_section2),
-								getString(R.string.title_section3), }), this);
+		sort.add(new NameComparator());
+		sort.add(new NumberComparator());
+		actionBar.setListNavigationCallbacks(sort,this);
 	}
 
 	@Override
@@ -132,41 +129,11 @@ public class ViewContacts extends FragmentActivity implements
 	public boolean onNavigationItemSelected(int position, long id) {
 		// When the given dropdown item is selected, show its contents in the
 		// container view.
-		Fragment fragment = new DummySectionFragment();
-		Bundle args = new Bundle();
-		args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-		fragment.setArguments(args);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.container, fragment).commit();
+		contacts.sortMethod(sort.getItem(position));
+		viewContacts.invalidateViews();
 		return true;
 	}
 
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		public DummySectionFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(
-					R.layout.fragment_view_contacts_dummy, container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
-			return rootView;
-		}
-	}
 
 	@Override
 	public void onAnimationUpdate(ValueAnimator arg0) {

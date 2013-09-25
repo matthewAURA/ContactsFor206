@@ -20,11 +20,14 @@ public class ContactsList extends ArrayAdapter<Contact>{
 	
 	public void add(Contact newContact){
 		super.add(newContact);
-		super.sort(compare);
+		if (this.compare != null){
+			super.sort(compare);
+		}
 	}
 
 	public void sortMethod(ContactComparator comp){
 		this.compare = comp;
+		this.sort(this.compare);
 	}
 	
 	

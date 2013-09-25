@@ -5,5 +5,9 @@ public class NameComparator implements ContactComparator {
 	public int compare(Contact one, Contact two) {
 		return one.getName().compareTo(two.getName());
 	}
+	
+	public String toString(){
+		return "Sort by name";
+	}
 
 }
