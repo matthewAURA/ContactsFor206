@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 
-public class ContactsList extends ArrayAdapter<Contact>{
+public class ContactsList extends ArrayAdapter<ContactView>{
 
 	protected LayoutInflater fInflater;
     private ContactComparator compare;
@@ -18,7 +18,7 @@ public class ContactsList extends ArrayAdapter<Contact>{
         fInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
-	public void add(Contact newContact){
+	public void add(ContactView newContact){
 		super.add(newContact);
 		if (this.compare != null){
 			super.sort(compare);
@@ -45,7 +45,7 @@ public class ContactsList extends ArrayAdapter<Contact>{
         }else { 
         	params.height = contact.getDrawHeight();
         }
-        contact.populateCompact(convertView);
+        contact.populateContact(convertView);
 
 	    
 	    return convertView;

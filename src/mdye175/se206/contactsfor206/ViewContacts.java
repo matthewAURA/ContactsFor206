@@ -45,12 +45,12 @@ public class ViewContacts extends FragmentActivity implements
 		//Set up contacts objects
 		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
 		viewContacts.setAdapter(contacts);
-		contacts.add(new Contact(viewContacts.getContext(),"Tom","34 2135 243534"));
-		contacts.add(new Contact(viewContacts.getContext(),"Bob","13243 31145"));
-		contacts.add(new Contact(viewContacts.getContext(),"Bill","1750 51351 51"));
-		contacts.add(new Contact(viewContacts.getContext(),"Alice","4141 5165 675","alice@gmail.com"));
-		contacts.add(new Contact(viewContacts.getContext(),"Frank","51564742"));
-		contacts.add(new Contact(viewContacts.getContext(),"Joe","","joe@meat.com"));
+		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Tom","34 2135 243534")));
+		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Bob","13243 31145")));
+		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Bill","1750 51351 51")));
+		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Alice","4141 565 675","alice@gmail.com")));
+		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Frank","51564742")));
+		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Joe","","joe@meat.com")));
 
 			
 		//Set up a listener to change view when a contact is selected
@@ -86,6 +86,7 @@ public class ViewContacts extends FragmentActivity implements
 				Bundle b = new Bundle();
 				b.putSerializable("contact",contacts.getItem((int) id));
 				intent.putExtras(b);
+				ViewContacts.this.startActivity(intent);
 				return false;
 			}
 			

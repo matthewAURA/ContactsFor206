@@ -1,7 +1,10 @@
 package mdye175.se206.contactsfor206;
 
+import java.io.Serializable;
+
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,11 +18,11 @@ public class EditContact extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_contact);
 		
-		
+		Log.i("contacts","activity start");
 		
 		//Get the id that we are displaying
-		Bundle b = getIntent().getExtras();
-		final Contact contact = (Contact) b.getSerializable("contact");
+		Serializable b = getIntent().getSerializableExtra("contact");
+		final Contact contact = (Contact) b;
 		
 		//Set up the data on the page
 		final EditText name = (EditText)findViewById(R.id.nameEditText);
