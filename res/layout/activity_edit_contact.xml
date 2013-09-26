@@ -10,6 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".EditContactActivity"
+    android:windowSoftInputMode="adjustPan"
 >
 
     <ImageView
@@ -35,7 +36,8 @@
         android:layout_above="@+id/saveButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/imageView1" >
+        android:layout_toLeftOf="@+id/imageView1"
+        android:focusable="false" >
 
     </ListView>
 

@@ -17,7 +17,8 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 	private static final long serialVersionUID = -4531245335070638404L;
 
 	private List<ContactDataValue> dataValues;
-	
+	//TODO: Make private
+	public int id;
 	public Contact(String name,String number){
 		this.dataValues = new ArrayList<ContactDataValue>();
 		this.dataValues.add(new ContactDataValue(name,ContactDataValue.Parameter.Name));
@@ -25,6 +26,7 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 			this.dataValues.add(new ContactDataValue(number,ContactDataValue.Parameter.PhoneNumber));
 		}
 		this.sortData();
+		this.id = this.hashCode();
 	}
 	
 	public Contact(String name,String number,String email){
@@ -35,6 +37,13 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 		this.sortData();
 	}
 	
+	public Contact(String name,String number,String email,String address){
+		this(name,number,email);
+		if (address.length() > 0){
+			this.dataValues.add(new ContactDataValue(email,ContactDataValue.Parameter.Address));
+		}
+		this.sortData();
+	}
 	public ContactDataValue getById(ContactDataValue.Parameter p){
 		for (ContactDataValue i:this.dataValues){
 			if (i.getID().equals(p)){
@@ -52,6 +61,12 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 		return this.dataValues.get(index);
 	}
 	
+	public void addParameter(String value,ContactDataValue.Parameter p){
+		this.dataValues.add(new ContactDataValue(value, p));
+		this.sortData();
+		
+	}
+	
 	public void sortData(){
 		Collections.sort(dataValues,new DataValueComparator());
 	}
@@ -59,5 +74,13 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 	@Override
 	public Iterator<ContactDataValue> iterator() {
 		return dataValues.iterator();
+	}
+	
+	public boolean equals(Object other){
+		if (other instanceof Contact){
+			return this.id==((Contact)other).id;
+		}else{
+			return false;
+		}
 	}
 }

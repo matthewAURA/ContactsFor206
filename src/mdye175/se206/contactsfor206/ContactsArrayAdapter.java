@@ -53,6 +53,13 @@ public class ContactsArrayAdapter extends ArrayAdapter<ContactView>{
 	    return convertView;
 	}
 	
+	public void remove(Contact contact){
+		for (int i=0;i<this.getCount();i++){
+			if (this.getItem(i).getContact().equals(contact)){
+				this.remove(this.getItem(i));
+			}
+		}
+	}
 	
 
 

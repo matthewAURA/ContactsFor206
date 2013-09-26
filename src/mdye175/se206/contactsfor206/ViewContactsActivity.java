@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,7 +31,7 @@ public class ViewContactsActivity extends FragmentActivity implements
 	private ListView viewContacts;
 	private AnimatorUpdateListener update = this;
 	private SortMethodList sort;
-	
+	private ContactView activeEditContact;
 	private static final int STATIC_EDIT_CONTACT_IDENTIFIER = 32414;
 	
 	@Override
@@ -40,6 +41,8 @@ public class ViewContactsActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_view_contacts);
 		viewContacts = (ListView)findViewById(R.id.listView1);
 		sort = new SortMethodList(this,android.R.layout.simple_list_item_1);
+		
+		viewContacts.setItemsCanFocus(false);
 		
 		//Set up contacts objects
 		contacts = new ContactsArrayAdapter(this, android.R.layout.simple_list_item_1);
@@ -80,6 +83,7 @@ public class ViewContactsActivity extends FragmentActivity implements
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				final ContactView contact = ((ContactView)arg0.getItemAtPosition(arg2));
+				activeEditContact = contact;
 				launchEditActivity(contact.getContact());
 				return false;
 			}			
@@ -148,14 +152,19 @@ public class ViewContactsActivity extends FragmentActivity implements
 	}
 	
 	@Override 
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {     
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 	  super.onActivityResult(requestCode, resultCode, data); 
 	  switch(requestCode) { 
 	    case (ViewContactsActivity.STATIC_EDIT_CONTACT_IDENTIFIER) : { 
 	      if (resultCode == Activity.RESULT_OK) { 
 	    	  Serializable b = data.getSerializableExtra("contact");
 	    	  final Contact contact = (Contact) b;
-	  			
+	    	  activeEditContact.setContact(contact);
+	  			Log.i("After activity call",contact.getById(ContactDataValue.Parameter.Name).getValue());
+	  			activeEditContact.invalidate();
+	    	  //contacts.remove(newView);
+	    	  //contacts.add(newView);
 	      } 
 	      break; 
 	    } 
