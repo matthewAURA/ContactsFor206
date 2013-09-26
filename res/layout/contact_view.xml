@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Contact" >
+    tools:context=".Contact">
 
     <TextView
         android:id="@+id/nameText"
@@ -21,49 +21,34 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_launcher" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/nameText"
-        android:orientation="vertical" >
+      <ListView
+          android:id="@+id/data_list"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_above="@+id/call_button"
+          android:layout_alignParentLeft="true"
+          android:layout_below="@+id/nameText" >
 
-        <TextView
-            android:id="@+id/numberText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="13421772"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colour_ph" />
+      </ListView>
 
-        <TextView
-            android:id="@+id/emailText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="13421772"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colour_ph" />
-    </LinearLayout>
+      <Button
+          android:id="@+id/edit_button"
+          style="?android:attr/buttonStyleSmall"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_below="@+id/imageView1"
+          android:layout_marginTop="50dp"
+          android:text="Button" />
 
-    <Button
-        android:id="@+id/button1"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearLayout1"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/button2"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/button1"
-        android:layout_toRightOf="@+id/button1"
-        android:text="Button" />
+      <Button
+          android:id="@+id/call_button"
+          style="?android:attr/buttonStyleSmall"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignBaseline="@+id/edit_button"
+          android:layout_alignBottom="@+id/edit_button"
+          android:layout_toRightOf="@+id/edit_button"
+          android:text="Button" />
 
 </RelativeLayout>

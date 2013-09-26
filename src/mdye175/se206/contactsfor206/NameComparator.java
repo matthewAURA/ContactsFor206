@@ -3,7 +3,7 @@ package mdye175.se206.contactsfor206;
 public class NameComparator implements ContactComparator {
 	@Override
 	public int compare(ContactView one, ContactView two) {
-		return one.getContact().getName().compareTo(two.getContact().getName());
+		return one.getContact().getById(ContactDataValue.Parameter.Name).getValue().compareTo(two.getContact().getById(ContactDataValue.Parameter.Name).getValue());
 	}
 	
 	public String toString(){

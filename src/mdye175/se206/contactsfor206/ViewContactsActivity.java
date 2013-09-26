@@ -1,27 +1,24 @@
 package mdye175.se206.contactsfor206;
 
+import java.io.Serializable;
+
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-public class ViewContacts extends FragmentActivity implements
+
+public class ViewContactsActivity extends FragmentActivity implements
 		ActionBar.OnNavigationListener, AnimatorUpdateListener {
 
 	/**
@@ -29,10 +26,12 @@ public class ViewContacts extends FragmentActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	private ContactsList contacts;
+	private ContactsArrayAdapter contacts;
 	private ListView viewContacts;
 	private AnimatorUpdateListener update = this;
 	private SortMethodList sort;
+	
+	private static final int STATIC_EDIT_CONTACT_IDENTIFIER = 32414;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class ViewContacts extends FragmentActivity implements
 		sort = new SortMethodList(this,android.R.layout.simple_list_item_1);
 		
 		//Set up contacts objects
-		contacts = new ContactsList(this, android.R.layout.simple_list_item_1);
+		contacts = new ContactsArrayAdapter(this, android.R.layout.simple_list_item_1);
 		viewContacts.setAdapter(contacts);
 		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Tom","34 2135 243534")));
 		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Bob","13243 31145")));
@@ -73,6 +72,18 @@ public class ViewContacts extends FragmentActivity implements
 				anim.start();
 
 			}		
+		});
+		
+		viewContacts.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				final ContactView contact = ((ContactView)arg0.getItemAtPosition(arg2));
+				launchEditActivity(contact.getContact());
+				return false;
+			}			
+		
 		});
 
 		
@@ -121,11 +132,34 @@ public class ViewContacts extends FragmentActivity implements
 		return true;
 	}
 
+	private void launchEditActivity(Contact contact){
+		Intent intent = new Intent();
+		intent.setClass(this, EditContactActivity.class);
+		Bundle b = new Bundle();
+		b.putSerializable("contact",contact);
+		intent.putExtras(b);
+		this.startActivityForResult(intent,ViewContactsActivity.STATIC_EDIT_CONTACT_IDENTIFIER);
+	}
 
 	@Override
 	public void onAnimationUpdate(ValueAnimator arg0) {
 		viewContacts.invalidateViews();
 		
+	}
+	
+	@Override 
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {     
+	  super.onActivityResult(requestCode, resultCode, data); 
+	  switch(requestCode) { 
+	    case (ViewContactsActivity.STATIC_EDIT_CONTACT_IDENTIFIER) : { 
+	      if (resultCode == Activity.RESULT_OK) { 
+	    	  Serializable b = data.getSerializableExtra("contact");
+	    	  final Contact contact = (Contact) b;
+	  			
+	      } 
+	      break; 
+	    } 
+	  } 
 	}
 
 }

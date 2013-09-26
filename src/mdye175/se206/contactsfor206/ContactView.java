@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
 
 public class ContactView extends View implements Serializable {
 
@@ -20,6 +22,8 @@ public class ContactView extends View implements Serializable {
 	private Contact contact;
 	private int drawHeight = ContactView.Heights.small.getValue();
 	private boolean isExpanded;
+	private ListView dataList;
+	private ContactDataList contactData;
 	
 	public static enum Heights{
 		small(100),big(250);
@@ -32,55 +36,55 @@ public class ContactView extends View implements Serializable {
 	public ContactView(Context context,Contact contact) {
 		super(context);
 		this.contact = contact;
+
+		
 	}
 	
 	
 	
 	public void populateContact(View view){
-	    TextView nameTextView = (TextView)view.findViewById(R.id.nameText);
-	    nameTextView.setText(contact.getName());
-	    TextView numberTextView = (TextView)view.findViewById(R.id.numberText);
-	    numberTextView.setText(contact.getNumber());
-	    TextView emailTextView = (TextView)view.findViewById(R.id.emailText);
+		dataList = (ListView)view.findViewById(R.id.data_list);
+		dataList.setAdapter(contactData);
+		((TextView)view.findViewById(R.id.nameText)).setText(contact.getById(ContactDataValue.Parameter.Name).getValue());
+		contactData = new ContactDataList(this.getContext(),android.R.layout.simple_list_item_1);
 	    ImageView image = (ImageView)view.findViewById(R.id.imageView1);
-	    Button button1 = (Button)view.findViewById(R.id.button1);
-	    Button button2 = (Button)view.findViewById(R.id.button2);
+	    Button button1 = (Button)view.findViewById(R.id.edit_button);
+	    Button button2 = (Button)view.findViewById(R.id.call_button);
 	    button1.setFocusable(false);
     	button2.setFocusable(false);
+    	dataList.setFocusable(false);
+		
+	    if (this.isExpanded()){	
+	    	image.setVisibility(VISIBLE);
+	    	for (ContactDataValue i:contact){
+		    		if (i.getID() != ContactDataValue.Parameter.Name){
+		    		TextView newText = new TextView(dataList.getContext());
+		    		newText.setText(i.getValue());
+		    		newText.setClickable(false);
+		    		newText.setFocusable(false);
+		    		contactData.add(newText);
+		    	}
+	    	}
+	    }else{
+	    	image.setVisibility(INVISIBLE);
+	    	if (contact.getCount() > 1){
+	    		TextView newText = new TextView(dataList.getContext());
+	    		newText.setText(contact.getIndex(1).getValue());
+	    		newText.setClickable(false);
+	    		newText.setFocusable(false);
+	    		contactData.add(newText);
+	    	}
+	    	
+	    }
+	    
+	    
+	
     	
     	//Set up callbacks for edit button
-    	button1.setText("Edit");
-    	button1.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				launchEditActivity((ContactView)arg0);
-			}
-    		
-    	});
-    	
+    	button1.setText("Chill out");
+
 
 	    
-	    emailTextView.setText(contact.getEmail());
-	    numberTextView.setVisibility(View.VISIBLE);
-	    
-	    if (contact.getEmail().length() < 1){
-	    	emailTextView.setVisibility(View.GONE);
-	    }
-	    if (contact.getNumber().length() < 1){
-	    	numberTextView.setVisibility(View.GONE);
-	    }
-	    
-	    if (this.isExpanded()){	
-	    	emailTextView.setVisibility(View.VISIBLE);
-	    	image.setVisibility(View.VISIBLE);
-	    	button1.setVisibility(View.VISIBLE);
-	    	button2.setVisibility(View.VISIBLE);
-	    }else{
-	    	button1.setVisibility(View.INVISIBLE);
-	    	button2.setVisibility(View.INVISIBLE);
-	    	emailTextView.setVisibility(View.GONE);
-	    	image.setVisibility(View.GONE);
-	    }
 	    
 	}
 
@@ -88,14 +92,7 @@ public class ContactView extends View implements Serializable {
 		return contact;
 	}
 	
-	private void launchEditActivity(ContactView contact){
-		Intent intent = new Intent();
-		intent.setClass(ContactView.this.getContext(), EditContact.class);
-		Bundle b = new Bundle();
-		b.putSerializable("contact",contact);
-		intent.putExtras(b);
-		ContactView.this.getContext().startActivity(intent);
-	}
+
 	
 	public int getDrawHeight() {
 		return drawHeight;

@@ -2,76 +2,62 @@ package mdye175.se206.contactsfor206;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
 
-public class Contact implements Serializable {
+public class Contact implements Serializable,Iterable<ContactDataValue> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4531245335070638404L;
 
-
-
-	/**
-	 * 
-	 */
-	private String name;
-	private String number= "";
-	private String email = "";
-
-
+	private List<ContactDataValue> dataValues;
 	
 	public Contact(String name,String number){
-		this.name = name;
-		this.number = number;
+		this.dataValues = new ArrayList<ContactDataValue>();
+		this.dataValues.add(new ContactDataValue(name,ContactDataValue.Parameter.Name));
+		if (number.length() > 0){
+			this.dataValues.add(new ContactDataValue(number,ContactDataValue.Parameter.PhoneNumber));
+		}
+		this.sortData();
 	}
 	
 	public Contact(String name,String number,String email){
 		this(name,number);
-		this.email = email;
-	}
-
-		
-	public String toString(){
-		return (this.name + "\t" + this.number);
+		if (email.length() > 0){
+			this.dataValues.add(new ContactDataValue(email,ContactDataValue.Parameter.Email));
+		}
+		this.sortData();
 	}
 	
-	int compareTo(Contact other){
-		return this.name.compareTo(other.name);
+	public ContactDataValue getById(ContactDataValue.Parameter p){
+		for (ContactDataValue i:this.dataValues){
+			if (i.getID().equals(p)){
+				return i;
+			}
+		}
+		return null;
 	}
-
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
 	
-
+	public int getCount(){
+		return this.dataValues.size();
+	}
 	
-
+	public ContactDataValue getIndex(int index){
+		return this.dataValues.get(index);
+	}
 	
-
+	public void sortData(){
+		Collections.sort(dataValues,new DataValueComparator());
+	}
 	
+	@Override
+	public Iterator<ContactDataValue> iterator() {
+		return dataValues.iterator();
+	}
 }

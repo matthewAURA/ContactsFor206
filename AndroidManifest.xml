@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Actionbar" >
         <activity
-            android:name="mdye175.se206.contactsfor206.ViewContacts"
+            android:name="mdye175.se206.contactsfor206.ViewContactsActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="mdye175.se206.contactsfor206.EditContact"
+            android:name="mdye175.se206.contactsfor206.EditContactActivity"
             android:label="@string/title_activity_view_contact" >
         </activity>
     </application>

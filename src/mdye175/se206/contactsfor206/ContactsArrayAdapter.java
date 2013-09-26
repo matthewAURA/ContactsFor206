@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 
-public class ContactsList extends ArrayAdapter<ContactView>{
+public class ContactsArrayAdapter extends ArrayAdapter<ContactView>{
 
-	protected LayoutInflater fInflater;
+	private LayoutInflater inflater;
     private Comparator<? super ContactView> compare;
     
-	public ContactsList(Context context, int textViewResourceId) {
+	public ContactsArrayAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
-        fInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	public void add(ContactView newContact){
@@ -38,7 +38,7 @@ public class ContactsList extends ArrayAdapter<ContactView>{
 		ContactView contact = this.getItem(position);
 		
 	    if (convertView == null) {
-	    	convertView = fInflater.inflate(R.layout.contact_view, parent, false);
+	    	convertView = inflater.inflate(R.layout.contact_view, parent, false);
         }
 	    
 	    final LayoutParams params = convertView.getLayoutParams();
