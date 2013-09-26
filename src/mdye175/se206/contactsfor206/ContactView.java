@@ -1,16 +1,25 @@
 package mdye175.se206.contactsfor206;
 
+import java.io.Serializable;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ContactView extends View {
+public class ContactView extends View implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3961310794759469719L;
 	private Contact contact;
+	private int drawHeight = ContactView.Heights.small.getValue();
+	private boolean isExpanded;
 	
 	public static enum Heights{
 		small(100),big(250);
@@ -44,12 +53,7 @@ public class ContactView extends View {
     	button1.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent();
-				intent.setClass(ContactView.this.getContext(), EditContact.class);
-				Bundle b = new Bundle();
-				b.putSerializable("contact",contact);
-				intent.putExtras(b);
-				ContactView.this.getContext().startActivity(intent);
+				launchEditActivity((ContactView)arg0);
 			}
     		
     	});
@@ -66,7 +70,7 @@ public class ContactView extends View {
 	    	numberTextView.setVisibility(View.GONE);
 	    }
 	    
-	    if (contact.isExpanded()){	
+	    if (this.isExpanded()){	
 	    	emailTextView.setVisibility(View.VISIBLE);
 	    	image.setVisibility(View.VISIBLE);
 	    	button1.setVisibility(View.VISIBLE);
@@ -82,6 +86,31 @@ public class ContactView extends View {
 
 	public Contact getContact(){
 		return contact;
+	}
+	
+	private void launchEditActivity(ContactView contact){
+		Intent intent = new Intent();
+		intent.setClass(ContactView.this.getContext(), EditContact.class);
+		Bundle b = new Bundle();
+		b.putSerializable("contact",contact);
+		intent.putExtras(b);
+		ContactView.this.getContext().startActivity(intent);
+	}
+	
+	public int getDrawHeight() {
+		return drawHeight;
+	}
+
+	public void setDrawHeight(int drawHeight) {
+		this.drawHeight = drawHeight;
+	}
+	
+	public boolean isExpanded() {
+		return isExpanded;
+	}
+
+	public void toggleExpanded() {
+		this.isExpanded = !this.isExpanded;
 	}
 
 }

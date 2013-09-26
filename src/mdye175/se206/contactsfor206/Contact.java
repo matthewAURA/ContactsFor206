@@ -19,8 +19,8 @@ public class Contact implements Serializable {
 	private String name;
 	private String number= "";
 	private String email = "";
-	private boolean isExpanded;
-	private int drawHeight = Contact.Heights.small.getValue();
+
+
 	
 	public Contact(String name,String number){
 		this.name = name;
@@ -66,21 +66,9 @@ public class Contact implements Serializable {
 		this.email = email;
 	}
 
-	public boolean isExpanded() {
-		return isExpanded;
-	}
 
-	public void toggleExpanded() {
-		this.isExpanded = !this.isExpanded;
-	}
 	
-	public int getDrawHeight() {
-		return drawHeight;
-	}
 
-	public void setDrawHeight(int drawHeight) {
-		this.drawHeight = drawHeight;
-	}
 	
 
 	

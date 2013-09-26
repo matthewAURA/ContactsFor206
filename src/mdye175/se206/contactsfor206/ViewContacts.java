@@ -58,15 +58,14 @@ public class ViewContacts extends FragmentActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long id) {
-				final Contact contact = ((Contact)arg0.getItemAtPosition(arg2));
+				final ContactView contact = ((ContactView)arg0.getItemAtPosition(arg2));
 				ObjectAnimator anim;
-				System.out.println(contact.getDrawHeight());
 				if (!contact.isExpanded()){
 				//Animate the item to make it open
-					anim = ObjectAnimator.ofInt(contact, "drawHeight", contact.getDrawHeight(), Contact.Heights.big.getValue());
+					anim = ObjectAnimator.ofInt(contact, "drawHeight", contact.getDrawHeight(), ContactView.Heights.big.getValue());
 					contact.toggleExpanded();
 				}else{
-					anim = ObjectAnimator.ofInt(contact, "drawHeight", contact.getDrawHeight(), Contact.Heights.small.getValue());
+					anim = ObjectAnimator.ofInt(contact, "drawHeight", contact.getDrawHeight(), ContactView.Heights.small.getValue());
 					contact.toggleExpanded();
 				}
 				anim.setDuration(200);
@@ -75,22 +74,7 @@ public class ViewContacts extends FragmentActivity implements
 
 			}		
 		});
-		viewContacts.setOnItemLongClickListener(new OnItemLongClickListener(){
 
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long id) {
-				//Load the activity for the relevant contact.
-				Intent intent = new Intent();
-				intent.setClass(ViewContacts.this, EditContact.class);
-				Bundle b = new Bundle();
-				b.putSerializable("contact",contacts.getItem((int) id));
-				intent.putExtras(b);
-				ViewContacts.this.startActivity(intent);
-				return false;
-			}
-			
-		});
 		
 		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getActionBar();
@@ -103,6 +87,8 @@ public class ViewContacts extends FragmentActivity implements
 		actionBar.setListNavigationCallbacks(sort,this);
 	}
 
+
+	
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		// Restore the previously serialized current dropdown position.

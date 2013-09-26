@@ -1,6 +1,8 @@
 package mdye175.se206.contactsfor206;
 
 
+import java.util.Comparator;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,7 @@ import android.widget.ArrayAdapter;
 public class ContactsList extends ArrayAdapter<ContactView>{
 
 	protected LayoutInflater fInflater;
-    private ContactComparator compare;
+    private Comparator<? super ContactView> compare;
     
 	public ContactsList(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
@@ -27,13 +29,13 @@ public class ContactsList extends ArrayAdapter<ContactView>{
 
 	public void sortMethod(ContactComparator comp){
 		this.compare = comp;
-		this.sort(this.compare);
+		this.sort(compare);
 	}
 	
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Contact contact = this.getItem(position);
+		ContactView contact = this.getItem(position);
 		
 	    if (convertView == null) {
 	    	convertView = fInflater.inflate(R.layout.contact_view, parent, false);

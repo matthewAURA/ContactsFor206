@@ -39,9 +39,9 @@ public class EditContact extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				contact.setName(name.toString());
-				contact.setNumber(number.toString());
-				contact.setEmail(email.toString());
+				contact.setName(name.getText().toString());
+				contact.setNumber(number.getText().toString());
+				contact.setEmail(email.getText().toString());
 				finish();
 			}
 			
@@ -57,5 +57,6 @@ public class EditContact extends Activity {
 		getMenuInflater().inflate(R.menu.view_contact, menu);
 		return true;
 	}
+	
 
 }
