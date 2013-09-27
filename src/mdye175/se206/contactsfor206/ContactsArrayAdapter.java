@@ -43,6 +43,9 @@ public class ContactsArrayAdapter extends ArrayAdapter<ContactView>{
 	    	convertView = inflater.inflate(R.layout.contact_view, parent, false);
         }
 	    
+	    
+	    //getView must manually request the height of ContactView objects, as they can be animated and have 
+	    //Changing heights
 	    final LayoutParams params = convertView.getLayoutParams();
         if (params == null) { 
         	convertView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, contact.getDrawHeight())); 

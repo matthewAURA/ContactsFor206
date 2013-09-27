@@ -2,6 +2,12 @@ package mdye175.se206.contactsfor206;
 
 import java.util.Comparator;
 
+/**
+ *Standard Interface to unify comparators of contacts objects, so they can be sorted in different ways 
+ * 
+ * @author Matthew
+ *
+ */
 public interface ContactComparator extends Comparator<ContactView> {
 
 	@Override

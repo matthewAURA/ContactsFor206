@@ -21,10 +21,12 @@ public class ContactDataList extends ArrayAdapter<TextView> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		TextView data = this.getItem(position);
 		
+		//If we can recycle the view, great, otherwise inflate the view
 	    if (convertView == null) {
 	    	convertView = fInflater.inflate(R.layout.contact_data_text, parent, false);
         }
 	    
+	    //Display the text for the field
 	    TextView display = (TextView)convertView.findViewById(R.id.textView1);
 	    if (display != null)
 	    	display.setText(data.getText());

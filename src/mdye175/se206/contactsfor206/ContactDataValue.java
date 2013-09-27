@@ -2,8 +2,19 @@ package mdye175.se206.contactsfor206;
 
 import java.io.Serializable;
 
+/**
+ * Standard Class represending data values for contacts, such as names, numbers email, facebook, etc...
+ * This allows for dynamic data and eventually the ability for the user to add whatever data they 
+ * want to a contact
+ * 
+ * @author Matthew
+ *
+ */
+
 public class ContactDataValue implements Comparable<ContactDataValue>,Serializable {
 	
+	//We always want certain types, such as name, so we use an enum to define them
+	//This could potentially be it's own class
 	public static enum Parameter implements Serializable{
 		Name("name"),PhoneNumber("phonenumber"),Email("email"),Address("address"),Other("other");
 		

@@ -37,15 +37,9 @@ public class EditTextArrayAdapter extends ArrayAdapter<EditTextParameter> {
 	    if (display != null && contact != null){
 	    	display.setText(data.getEditText().getText());	    
 	    
-        //we need to update adapter once we finish with editing
-        display.setOnFocusChangeListener(new OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                	//contact.getById(data.getParameter()).setValue(display.getText().toString());
-                }
-            }
-        });
-        
+        //Because of the fact that the editText objects are in a listview, we need to constantly be setting their value
+	    //based on the changes in text - otherwise the android recycler will delete the object so that not too many objects
+	    //are consuming memory in the listview
         display.addTextChangedListener(new TextWatcher(){
 
 			@Override

@@ -25,6 +25,8 @@ public class ContactView extends View implements Serializable {
 	private ListView dataList;
 	private ContactDataList contactData;
 	private TextView nameText;
+	//Ugh - simple hack to make animations nice - hopefully this would be smarter soon, using MATCH_PARENT
+	//to nicely fit to view, but this causes some derpyness with animations
 	public static enum Heights{
 		small(100),big(250);
 		
@@ -41,7 +43,9 @@ public class ContactView extends View implements Serializable {
 	}
 	
 	
-	
+	//Long onibus method - again a little messy, 
+	//Populates a view with the data from the assigned contact to this object.
+	//Potentially link this class to an interface to have different ways of drawing one contact.
 	public void populateContact(View view){
 		dataList = (ListView)view.findViewById(R.id.data_list);
 		dataList.setAdapter(contactData);
@@ -49,8 +53,13 @@ public class ContactView extends View implements Serializable {
 		nameText.setText(contact.getById(ContactDataValue.Parameter.Name).getValue());
 		contactData = new ContactDataList(this.getContext(),android.R.layout.simple_list_item_1);
 	    ImageView image = (ImageView)view.findViewById(R.id.imageView1);
+	    
+	    //I can't for the life of me make the listview elements not clickable - they keep eating the onTouch() objects.
+	    //there is a way, just TODO
     	dataList.setFocusable(false);
 		
+    	
+    	//Making things invisible when not expanded, potentially a performance hit - something to look at later.
 	    if (this.isExpanded()){	
 	    	image.setVisibility(VISIBLE);
 	    	for (ContactDataValue i:contact){
@@ -109,6 +118,8 @@ public class ContactView extends View implements Serializable {
 		this.isExpanded = !this.isExpanded;
 	}
 	
+	
+	//Some issues earlier with views not being correctly drawn when contact data updated, tried to invalidate all children.
 	public void invalidate(){
 		nameText.invalidate();
 		dataList.invalidate();

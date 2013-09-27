@@ -17,11 +17,14 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 	private static final long serialVersionUID = -4531245335070638404L;
 
 	private List<ContactDataValue> dataValues;
-	//TODO: Make private
-	public int id;
+	private int id;
+	
 	public Contact(String name,String number){
+		//Set up list to store the data associated with this contact (name, phonenumber etc)
 		this.dataValues = new ArrayList<ContactDataValue>();
 		this.dataValues.add(new ContactDataValue(name,ContactDataValue.Parameter.Name));
+		
+		//Only add the phone number if it is valid (i.e. not an empty string)
 		if (number.length() > 0){
 			this.dataValues.add(new ContactDataValue(number,ContactDataValue.Parameter.PhoneNumber));
 		}

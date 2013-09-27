@@ -5,7 +5,8 @@ import java.util.Comparator;
 public class DataValueComparator implements Comparator<ContactDataValue>{
 
 
-	
+	//Hardcoded list of priorities for contact data - if a contact does not have one piece of data, others will be elevated 
+	//based on this scheme.
 	private int getPriority(ContactDataValue.Parameter p){
 		switch (p){
 			case Name:

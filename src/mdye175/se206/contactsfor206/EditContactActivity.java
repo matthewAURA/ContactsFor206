@@ -32,7 +32,7 @@ public class EditContactActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_contact);
 		
-		//Get the id that we are displaying
+		//Get the contact we are displaying from bundle
 		Serializable b = getIntent().getSerializableExtra("contact");
 		this.contact = (Contact) b;
 		
@@ -56,8 +56,6 @@ public class EditContactActivity extends Activity {
 		
 		
 		//Set up the data on the page
-		Log.i("contacts oncreate","set edittext");;
-		
 		if (contact.getById(ContactDataValue.Parameter.Name) != null)
 			nameField.setText(contact.getById(ContactDataValue.Parameter.Name).getValue());
 		if (contact.getById(ContactDataValue.Parameter.PhoneNumber) != null)
@@ -67,16 +65,7 @@ public class EditContactActivity extends Activity {
 		if (contact.getById(ContactDataValue.Parameter.Address) != null)
 			addressField.setText(contact.getById(ContactDataValue.Parameter.Address).getValue());
 		
-		
-		/*
-		simpleEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-		    public void onFocusChange(View v, boolean hasFocus) {
-		        String strValue = simpleEditText.getText().toString();
-		        Log.d(DEBUG_TAG, "User set EditText value to " + strValue);
-		    }
-		});*/
-		
-		
+		//Set up save button and callback
 		Button saveButton = (Button)findViewById(R.id.saveButton);
 		saveButton.setText("Save");
 	
@@ -109,14 +98,8 @@ public class EditContactActivity extends Activity {
 	}
 	
 	public void finish(){
-		//this.saveData();
 		super.finish();
 	}
-	
-	private void saveData(){
-		Contact newContact = new Contact(nameField.getText().toString(),phoneNumberField.getText().toString(),
-				emailField.getText().toString(),addressField.getText().toString());
-		Log.i("contacts save",nameField.getText().toString());
-	}
+
 
 }
