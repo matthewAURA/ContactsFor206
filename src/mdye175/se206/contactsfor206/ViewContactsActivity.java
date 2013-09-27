@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -100,8 +101,8 @@ public class ViewContactsActivity extends FragmentActivity implements
 		sort.add(new NameComparator());
 		sort.add(new NumberComparator());
 		actionBar.setListNavigationCallbacks(sort,this);
-	}
 
+	}
 
 	
 	@Override
@@ -124,6 +125,13 @@ public class ViewContactsActivity extends FragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.view_contacts, menu);
+		
+		MenuItem addNew = menu.findItem(R.id.item1);
+		Intent intent = new Intent(this,EditContactActivity.class);
+		Bundle b = new Bundle();
+		b.putSerializable("contact", new Contact("","","",""));
+		intent.putExtras(b);
+		addNew.setIntent(intent);
 		return true;
 	}
 
@@ -135,6 +143,17 @@ public class ViewContactsActivity extends FragmentActivity implements
 		viewContacts.invalidateViews();
 		return true;
 	}
+	
+	public boolean onOptionsItemSelected(MenuItem menu){
+		if (menu.getItemId() == R.id.item1){
+			this.activeEditContact = new ContactView(this, new Contact("","","",""));
+			this.contacts.add(activeEditContact);
+			this.startActivityForResult(menu.getIntent(), ViewContactsActivity.STATIC_EDIT_CONTACT_IDENTIFIER);
+		}
+		return true;
+		
+	}
+	
 
 	private void launchEditActivity(Contact contact){
 		Intent intent = new Intent();
@@ -161,10 +180,9 @@ public class ViewContactsActivity extends FragmentActivity implements
 	    	  Serializable b = data.getSerializableExtra("contact");
 	    	  final Contact contact = (Contact) b;
 	    	  activeEditContact.setContact(contact);
-	  			Log.i("After activity call",contact.getById(ContactDataValue.Parameter.Name).getValue());
-	  			activeEditContact.invalidate();
-	    	  //contacts.remove(newView);
-	    	  //contacts.add(newView);
+	    	  viewContacts.invalidateViews();
+	    	  contacts.sort();
+	    	  Log.i("contacts","successfully handled incoming contact");
 	      } 
 	      break; 
 	    } 

@@ -32,7 +32,9 @@ public class ContactsArrayAdapter extends ArrayAdapter<ContactView>{
 		this.sort(compare);
 	}
 	
-	
+	public void sort(){
+		this.sort(this.compare);
+	}
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ContactView contact = this.getItem(position);
