@@ -1,5 +1,6 @@
 package mdye175.se206.contactsfor206;
 
+import mdye175.se206.contactsfor206.contact.ContactComparator;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 

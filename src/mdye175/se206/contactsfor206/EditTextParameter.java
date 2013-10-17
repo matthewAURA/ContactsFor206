@@ -1,6 +1,7 @@
 package mdye175.se206.contactsfor206;
 
-import mdye175.se206.contactsfor206.ContactDataValue.Parameter;
+import mdye175.se206.contactsfor206.contact.ContactDataValue;
+import mdye175.se206.contactsfor206.contact.ContactDataValue.Parameter;
 import android.widget.EditText;
 
 //Wrapper class to tie together a preset parameter and an edittext instance

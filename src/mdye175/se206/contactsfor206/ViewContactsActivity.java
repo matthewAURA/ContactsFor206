@@ -2,6 +2,11 @@ package mdye175.se206.contactsfor206;
 
 import java.io.Serializable;
 
+import mdye175.se206.contactsfor206.contact.Contact;
+import mdye175.se206.contactsfor206.contact.ContactView;
+import mdye175.se206.contactsfor206.contact.NameComparator;
+import mdye175.se206.contactsfor206.contact.NumberComparator;
+
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;

@@ -2,7 +2,9 @@ package mdye175.se206.contactsfor206;
 
 import java.io.Serializable;
 
-import mdye175.se206.contactsfor206.ContactDataValue.Parameter;
+import mdye175.se206.contactsfor206.contact.Contact;
+import mdye175.se206.contactsfor206.contact.ContactDataValue;
+import mdye175.se206.contactsfor206.contact.ContactDataValue.Parameter;
 
 import android.os.Bundle;
 import android.app.Activity;

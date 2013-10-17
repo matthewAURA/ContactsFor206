@@ -3,6 +3,10 @@ package mdye175.se206.contactsfor206;
 
 import java.util.Comparator;
 
+import mdye175.se206.contactsfor206.contact.Contact;
+import mdye175.se206.contactsfor206.contact.ContactComparator;
+import mdye175.se206.contactsfor206.contact.ContactView;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +46,6 @@ public class ContactsArrayAdapter extends ArrayAdapter<ContactView>{
 	    if (convertView == null) {
 	    	convertView = inflater.inflate(R.layout.contact_view, parent, false);
         }
-	    
 	    
 	    //getView must manually request the height of ContactView objects, as they can be animated and have 
 	    //Changing heights

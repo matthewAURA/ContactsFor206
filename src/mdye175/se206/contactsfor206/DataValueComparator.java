@@ -2,6 +2,8 @@ package mdye175.se206.contactsfor206;
 
 import java.util.Comparator;
 
+import mdye175.se206.contactsfor206.contact.ContactDataValue;
+
 public class DataValueComparator implements Comparator<ContactDataValue>{
 
 
