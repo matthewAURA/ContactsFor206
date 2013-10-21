@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 public class ContactDataBase extends AsyncTask<DatabaseOperation,Integer,Long>{
 	
 	private Database contactDB;
+
 	
 	public static enum Column{
 		id("contact_id"),name("contact_name"),phone("contact_phone"),email("contact_email"),address("contact_address");
@@ -23,9 +24,10 @@ public class ContactDataBase extends AsyncTask<DatabaseOperation,Integer,Long>{
 	}
 	
 	
+	
 	private class Database extends SQLiteOpenHelper{
 		//Database Name
-		public static final String dbName = "ContactsDataBase.db";
+
 		private SQLiteDatabase db;
 
 		//Table info
@@ -33,18 +35,27 @@ public class ContactDataBase extends AsyncTask<DatabaseOperation,Integer,Long>{
 		private final String [] columns = {Column.id.toString(),Column.name.toString(),Column.phone.toString(),Column.email.toString(),Column.address.toString()};
 		
 		//Strings for creating and deleting tables
-		public static final String create_table = "CREATE TABLE" + table_name + " (ID int,Name varchar(30),Phone varchar(30),Email varchar(30),Address varchar(30)";
+		public String create_table;
 		public static final String delete_table = "DROP TABLE " + table_name;
 		
 		public Database(Context context, String name, CursorFactory factory,
 				int version) {
 			super(context, name, factory, version);
+			create_table = "create table " + table_name + " (";
+			for (String i: columns){
+				create_table += " ";
+				create_table += i;
+				create_table += " text";
+			}
+			create_table += " );";
+			
 		}
 	
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(Database.create_table);
-			this.db = db;
+			//TODO: Move this method to a create db method
+			db = this.getWritableDatabase();
+			db.execSQL(create_table);	
 		}
 	
 		@Override

@@ -65,9 +65,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="mdye175.se206.contactsfor206.EditContactActivity" project="ContactsFor206" 
-    file="/ContactsFor206/src/mdye175/se206/contactsfor206/EditContactActivity.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="mdye175.se206.contactsfor206.activity.EditContactActivity" 
+    project="ContactsFor206" file="/ContactsFor206/src/mdye175/se206/contactsfor206/activity/EditContactActivity.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="228" y="703"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -104,9 +104,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="mdye175.se206.contactsfor206.ViewContactsActivity" project="ContactsFor206" 
-    file="/ContactsFor206/src/mdye175/se206/contactsfor206/ViewContactsActivity.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="12" language="java" name="mdye175.se206.contactsfor206.activity.ViewContactsActivity" 
+    project="ContactsFor206" file="/ContactsFor206/src/mdye175/se206/contactsfor206/activity/ViewContactsActivity.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1158" y="698"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
