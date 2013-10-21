@@ -5,6 +5,7 @@ import java.util.List;
 
 import mdye175.se206.contactsfor206.contact.Contact;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 public class ReadContactsOperation implements DatabaseOperation<List> {
 	
@@ -15,38 +16,20 @@ public class ReadContactsOperation implements DatabaseOperation<List> {
 	}
 	
 	@Override
-	public String getSelection() {
-		return null;
-	}
-
-	@Override
-	public String[] getSelectionArgs() {
-		return null;
-	}
-
-	@Override
-	public String getGroupBy() {
-		return null;
-	}
-
-	@Override
-	public String getHaving() {
-		return null;
-	}
-
-	@Override
-	public String getOrderBy() {
-		return null;
-	}
-	
-	public void doOperation(Cursor input){
+	public void doOperation(Database db){
 		//Code to take the cursor object goes here
+		
 		Contact newContact;
-		for (int i=0;i<input.getCount();i++){
-			newContact = new Contact(input.getString(input.getColumnIndex(ContactDataBase.Column.name.toString())),input.getString(input.getColumnIndex(ContactDataBase.Column.phone.toString())));
-			contacts.add(newContact);
-			input.moveToNext();
-		}
+	    Cursor cursor = db.query(Database.columns,null, null, null, null, null);
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+	        Comment comment = cursorToComment(cursor);
+	        comments.add(comment);
+	        cursor.moveToNext();
+	      }
+	      // make sure to close the cursor
+	      cursor.close();
+	      return comments;
 	}
 
 	@Override

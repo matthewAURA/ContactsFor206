@@ -8,7 +8,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import mdye175.se206.contactsfor206.DataValueComparator;
+import mdye175.se206.contactsfor206.ContactDataValueComparator;
 
 
 public class Contact implements Serializable,Iterable<ContactDataValue> {
@@ -73,7 +73,7 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 	}
 	
 	public void sortData(){
-		Collections.sort(dataValues,new DataValueComparator());
+		Collections.sort(dataValues,new ContactDataValueComparator());
 	}
 	
 	@Override

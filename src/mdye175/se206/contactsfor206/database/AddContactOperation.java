@@ -7,36 +7,7 @@ import android.database.Cursor;
 public class AddContactOperation implements DatabaseOperation<List> {
 
 	@Override
-	public String getSelection() {
-		return null;
-	}
-
-	@Override
-	public String[] getSelectionArgs() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getGroupBy() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getHaving() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getOrderBy() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void doOperation(Cursor input) {
+	public void doOperation(Database db) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -46,5 +17,7 @@ public class AddContactOperation implements DatabaseOperation<List> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }
