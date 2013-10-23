@@ -20,7 +20,7 @@ public class NumberComparator implements ContactComparator {
 	}
 
 	public String toString(){
-		return "Sort by numer";
+		return "Sort by number";
 	}
 	
 }

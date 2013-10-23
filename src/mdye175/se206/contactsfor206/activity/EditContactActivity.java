@@ -14,25 +14,24 @@ import mdye175.se206.contactsfor206.contact.ContactDataValue.Parameter;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class EditContactActivity extends Activity {
-
-	private EditText nameField;
-	private EditText phoneNumberField;
-	private EditText emailField;
-	private EditText addressField;
 	private Contact contact;
 	
 	@Override
@@ -45,34 +44,31 @@ public class EditContactActivity extends Activity {
 		this.contact = (Contact) b;
 		
 		ListView fieldsList = (ListView)this.findViewById(R.id.fieldsListView);
-		EditTextArrayAdapter editors = new EditTextArrayAdapter(this, android.R.layout.simple_list_item_1,contact);
-		fieldsList.setAdapter(editors);
+		//EditTextArrayAdapter editors = new EditTextArrayAdapter(this, android.R.layout.simple_list_item_1,contact);
+		//fieldsList.setAdapter(editors);
 		
+		ArrayAdapter<View> listViews = new ArrayAdapter<View>(this,android.R.layout.simple_list_item_1);
+		fieldsList.setAdapter(listViews);
 		fieldsList.setFocusable(false);
 		fieldsList.setItemsCanFocus(true);
 		
-		//Add in default fields
-		nameField = new EditText(fieldsList.getContext());
-		phoneNumberField = new EditText(fieldsList.getContext());
-		emailField = new EditText(fieldsList.getContext());
-		addressField = new EditText(fieldsList.getContext());
+		LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 		
-		editors.add(new EditTextParameter(nameField,ContactDataValue.Parameter.Name));
-		editors.add(new EditTextParameter(phoneNumberField,ContactDataValue.Parameter.PhoneNumber));
-		editors.add(new EditTextParameter(emailField,ContactDataValue.Parameter.Email));
-		editors.add(new EditTextParameter(addressField,ContactDataValue.Parameter.Address));
-		
-		
-		//Set up the data on the page
-		if (contact.getById(ContactDataValue.Parameter.Name) != null)
-			nameField.setText(contact.getById(ContactDataValue.Parameter.Name).getValue());
-		if (contact.getById(ContactDataValue.Parameter.PhoneNumber) != null)
-			phoneNumberField.setText(contact.getById(ContactDataValue.Parameter.PhoneNumber).getValue());
-		if (contact.getById(ContactDataValue.Parameter.Email) != null)
-			emailField.setText(contact.getById(ContactDataValue.Parameter.Email).getValue());
-		if (contact.getById(ContactDataValue.Parameter.Address) != null)
-			addressField.setText(contact.getById(ContactDataValue.Parameter.Address).getValue());
-		
+		//Add in fields
+		for (ContactDataValue.Parameter p : ContactDataValue.Parameter.values()){
+			View v = inflater.inflate(R.layout.edit_contact_textfield, null);
+			listViews.add(v);
+			EditText edit = (EditText) v.findViewById(R.id.fieldEditText);
+			TextView textView = (TextView) v.findViewById(R.id.fieldTextName);
+			
+			textView.setText(p.toString());
+			
+			if (contact.getById(p) != null)
+				edit.setText(contact.getById(ContactDataValue.Parameter.FirstName).getValue());
+			listViews.notifyDataSetChanged();
+		}
+	
 		//Set up save button and callback
 		Button saveButton = (Button)findViewById(R.id.saveButton);
 		saveButton.setText("Save");
@@ -81,7 +77,7 @@ public class EditContactActivity extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				Log.i("contacts onclick",contact.getById(ContactDataValue.Parameter.Name).getValue());
+				Log.i("contacts onclick",contact.getById(ContactDataValue.Parameter.FirstName).getValue());
 			
 				Intent intent = new Intent();
 				Bundle b = new Bundle();

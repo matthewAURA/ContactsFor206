@@ -8,8 +8,9 @@ import mdye175.se206.contactsfor206.ContactsArrayAdapter;
 import mdye175.se206.contactsfor206.R;
 import mdye175.se206.contactsfor206.SortMethodList;
 import mdye175.se206.contactsfor206.contact.Contact;
+import mdye175.se206.contactsfor206.contact.ContactDataValue;
 import mdye175.se206.contactsfor206.contact.ContactView;
-import mdye175.se206.contactsfor206.contact.NameComparator;
+import mdye175.se206.contactsfor206.contact.FirstNameComparator;
 import mdye175.se206.contactsfor206.contact.NumberComparator;
 import mdye175.se206.contactsfor206.database.AddContactOperation;
 import mdye175.se206.contactsfor206.database.ContactDataBase;
@@ -63,7 +64,11 @@ public class ViewContactsActivity extends FragmentActivity implements
 		this.database = new ContactDataBase(this.getApplicationContext(), dbName, null, 1);
 		
 		//Add a test contact to the db;
-		AddContactOperation debugAdd = new AddContactOperation(new Contact("testName","testNumber"));
+		Contact testContact = new Contact();
+		for (ContactDataValue.Parameter p: ContactDataValue.Parameter.values()){
+			testContact.addParameter(p.toString(),p);
+		}
+		AddContactOperation debugAdd = new AddContactOperation(testContact);
 		database.execute(debugAdd);
 		
 		try {
@@ -137,7 +142,7 @@ public class ViewContactsActivity extends FragmentActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		actionBar.setTitle("Sort By...");
 		// Set up the dropdown list navigation in the action bar.
-		sort.add(new NameComparator());
+		sort.add(new FirstNameComparator());
 		sort.add(new NumberComparator());
 		actionBar.setListNavigationCallbacks(sort,this);
 

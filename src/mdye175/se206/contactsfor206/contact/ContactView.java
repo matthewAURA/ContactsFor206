@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,6 +42,20 @@ public class ContactView extends View implements Serializable {
 	public ContactView(Context context,Contact contact) {
 		super(context);
 		this.contact = contact;
+		
+		this.setOnTouchListener(new OnTouchListener(){
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+	            /*if (event.getAction() == MotionEvent.ACTION_DOWN){
+	                textView.setText("Touch coordinates : " +
+	                        String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
+	            }*/
+	            return true;
+			}
+			
+			
+		});
 	}
 	
 	
@@ -51,7 +66,7 @@ public class ContactView extends View implements Serializable {
 		dataList = (ListView)view.findViewById(R.id.data_list);
 		dataList.setAdapter(contactData);
 		nameText = ((TextView)view.findViewById(R.id.nameText));
-		nameText.setText(contact.getById(ContactDataValue.Parameter.Name).getValue());
+		nameText.setText(contact.getById(ContactDataValue.Parameter.FirstName).getValue());
 		contactData = new ContactDataList(this.getContext(),android.R.layout.simple_list_item_1);
 	    ImageView image = (ImageView)view.findViewById(R.id.imageView1);
 	    
@@ -64,7 +79,7 @@ public class ContactView extends View implements Serializable {
 	    if (this.isExpanded()){	
 	    	image.setVisibility(VISIBLE);
 	    	for (ContactDataValue i:contact){
-		    		if (i.getID() != ContactDataValue.Parameter.Name){
+		    		if (i.getID() != ContactDataValue.Parameter.FirstName){
 		    		TextView newText = new TextView(dataList.getContext());
 		    		newText.setText(i.getValue());
 		    		contactData.add(newText);

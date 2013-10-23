@@ -1,12 +1,14 @@
 package mdye175.se206.contactsfor206.database;
 
-import mdye175.se206.contactsfor206.database.ContactDataBase.Column;
+import mdye175.se206.contactsfor206.contact.ContactDataValue;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.util.Log;
 
 public class Database extends SQLiteOpenHelper{
 		//Database Name
@@ -18,7 +20,7 @@ public class Database extends SQLiteOpenHelper{
 		public static final String table_name = "Contacts";
 		
 		//TODO: Change this to generic columns
-		public static final String [] columns = {Column.id.toString(),Column.name.toString(),Column.phone.toString(),Column.email.toString(),Column.address.toString()};
+		public static String [] columns = new String [ContactDataValue.Parameter.values().length];
 		
 		//Strings for creating and deleting tables
 		public String create_table;
@@ -29,11 +31,20 @@ public class Database extends SQLiteOpenHelper{
 		public Database(Context context, String name, CursorFactory factory,
 				int version) {
 			super(context, name, factory, version);
-			create_table = "create table " + table_name + " (" + ID_COLUMN + "integer primary key autoincrement, ";
+			
+			
+			for (int i=0;i<ContactDataValue.Parameter.values().length;i++){
+				columns[i] = ContactDataValue.Parameter.values()[i].toString();
+			}
+			
+			
+			create_table = "create table " + table_name + " (" + ID_COLUMN + " integer primary key autoincrement, ";
 			for (String i: columns){
 				create_table += " ";
 				create_table += i;
 				create_table += " text";
+				if (!i.equals(columns[columns.length-1]))
+					create_table += ",";
 			}
 			create_table += " );";
 			
@@ -42,8 +53,12 @@ public class Database extends SQLiteOpenHelper{
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			//TODO: Move this method to a create db method
-			db = this.getWritableDatabase();
+			Log.i("database create",create_table);
 			db.execSQL(create_table);	
+		}
+		
+		public void open() throws SQLException{
+			db = this.getWritableDatabase();
 		}
 	
 		@Override

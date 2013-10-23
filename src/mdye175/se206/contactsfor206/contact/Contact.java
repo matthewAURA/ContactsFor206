@@ -3,12 +3,9 @@ package mdye175.se206.contactsfor206.contact;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import mdye175.se206.contactsfor206.ContactDataValueComparator;
 
 
 public class Contact implements Serializable,Iterable<ContactDataValue> {
@@ -23,14 +20,12 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 	
 	public Contact(String name,String number){
 		//Set up list to store the data associated with this contact (name, phonenumber etc)
-		this.dataValues = new ArrayList<ContactDataValue>();
-		this.dataValues.add(new ContactDataValue(name,ContactDataValue.Parameter.Name));
-		
+		this();
+		this.dataValues.add(new ContactDataValue(name,ContactDataValue.Parameter.FirstName));
 		//Only add the phone number if it is valid (i.e. not an empty string)
 		if (number.length() > 0){
 			this.dataValues.add(new ContactDataValue(number,ContactDataValue.Parameter.PhoneNumber));
 		}
-		this.sortData();
 		this.id = this.hashCode();
 	}
 	
@@ -39,7 +34,6 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 		if (email.length() > 0){
 			this.dataValues.add(new ContactDataValue(email,ContactDataValue.Parameter.Email));
 		}
-		this.sortData();
 	}
 	
 	public Contact(String name,String number,String email,String address){
@@ -47,11 +41,11 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 		if (address.length() > 0){
 			this.dataValues.add(new ContactDataValue(email,ContactDataValue.Parameter.Address));
 		}
-		this.sortData();
 	}
 	
 	public Contact() {
-		// TODO Auto-generated constructor stub
+		this.dataValues = new ArrayList<ContactDataValue>();
+
 	}
 
 	public ContactDataValue getById(ContactDataValue.Parameter p){
@@ -73,14 +67,9 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 	
 	public void addParameter(String value,ContactDataValue.Parameter p){
 		this.dataValues.add(new ContactDataValue(value, p));
-		this.sortData();
 		
 	}
-	
-	public void sortData(){
-		Collections.sort(dataValues,new ContactDataValueComparator());
-	}
-	
+
 	@Override
 	public Iterator<ContactDataValue> iterator() {
 		return dataValues.iterator();

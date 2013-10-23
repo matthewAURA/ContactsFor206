@@ -33,7 +33,7 @@ public class EditTextArrayAdapter extends ArrayAdapter<EditTextParameter> {
 	    	convertView = inflater.inflate(R.layout.edit_contact_textfield, parent, false);
         }
 	    
-	    final EditText display = (EditText)convertView.findViewById(R.id.editText1);
+	    final EditText display = (EditText)convertView.findViewById(R.id.fieldEditText);
 	    
 	    if (display != null && contact != null){
 	    	display.setText(data.getEditText().getText());	    

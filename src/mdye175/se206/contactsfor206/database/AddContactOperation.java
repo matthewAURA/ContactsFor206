@@ -22,7 +22,7 @@ public class AddContactOperation implements DatabaseOperation<List> {
 	@Override
 	public void doOperation(Database database){
 	    ContentValues values = new ContentValues();
-	    for (int i=0;i<ContactDataValue.Parameter.values().length;i++){
+	    for (int i=1;i<ContactDataValue.Parameter.values().length;i++){
 	    	values.put(Database.columns[i],newContact.getIndex(i).toString());
 	    }
 	    
@@ -40,7 +40,7 @@ public class AddContactOperation implements DatabaseOperation<List> {
 		Contact contact = new Contact();
 		for (int i=0;i<ContactDataValue.Parameter.values().length;i++){
 			contact.addParameter(cursor.getString(i),ContactDataValue.Parameter.values()[i]);
-			Log.i("Contacts database load",cursor.getString(i));
+			Log.i("Contacts database load",cursor.getString(i) + " was null");
 		}
 		return contact;
 		

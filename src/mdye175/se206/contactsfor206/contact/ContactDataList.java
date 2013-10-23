@@ -31,7 +31,7 @@ public class ContactDataList extends ArrayAdapter<TextView> {
 	    convertView.setClickable(true);
 	    
 	    //Display the text for the field
-	    TextView display = (TextView)convertView.findViewById(R.id.textView1);
+	    TextView display = (TextView)convertView.findViewById(R.id.fieldTextName);
 	    if (display != null)
 	    	display.setText(data.getText());
 	    
