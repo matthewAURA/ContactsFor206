@@ -10,22 +10,24 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class ReadContactsOperation implements DatabaseOperation<List> {
+public class ReadSingleContactOperation implements DatabaseOperation<List> {
 	
 	private List<Contact> contacts;
+	private Contact target;
 	
-	public ReadContactsOperation(){
+	public ReadSingleContactOperation(Contact contact){
 		this.contacts = new ArrayList<Contact>();
+		this.target = contact;
 	}
 	
 	@Override
 	public void doOperation(Database db){
 		//Code to take the cursor object goes here
+		String selectionString = db.ID_COLUMN + " = " + target.getId() ;
 		
 		Contact newContact;
-	    Cursor cursor = db.query(null,null, null, null, null, null);
+	    Cursor cursor = db.query(Database.columns,selectionString, null, null, null, null);
 	    cursor.moveToFirst();
-
 	    while (!cursor.isAfterLast()) {
 	        newContact = cursorToContact(cursor);
 	        contacts.add(newContact);
@@ -33,7 +35,6 @@ public class ReadContactsOperation implements DatabaseOperation<List> {
 	      }
 	      // make sure to close the cursor
 	      cursor.close();
-		  Log.i("Contacts list length",String.valueOf(contacts.size()));
 	}
 	
 	private Contact cursorToContact(Cursor cursor){
@@ -41,6 +42,7 @@ public class ReadContactsOperation implements DatabaseOperation<List> {
 		Contact contact = new Contact(Integer.parseInt(cursor.getString(0)));
 		for (int i=0;i<ContactDataValue.Parameter.values().length;i++){
 			contact.addParameter(cursor.getString(i+1),ContactDataValue.Parameter.values()[i]);
+			Log.i("Contacts database load",cursor.getString(i));
 		}
 		return contact;
 		
@@ -48,7 +50,6 @@ public class ReadContactsOperation implements DatabaseOperation<List> {
 
 	@Override
 	public List<Contact> getResults() {
-		
 		return contacts;
 	}
 

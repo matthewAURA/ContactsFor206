@@ -66,7 +66,11 @@ public class ContactView extends View implements Serializable {
 		dataList = (ListView)view.findViewById(R.id.data_list);
 		dataList.setAdapter(contactData);
 		nameText = ((TextView)view.findViewById(R.id.nameText));
-		nameText.setText(contact.getById(ContactDataValue.Parameter.FirstName).getValue());
+		try {
+			nameText.setText(contact.getById(ContactDataValue.Parameter.FirstName).getValue());
+		} catch (NullPointerException e) {
+			nameText.setText("");
+		}
 		contactData = new ContactDataList(this.getContext(),android.R.layout.simple_list_item_1);
 	    ImageView image = (ImageView)view.findViewById(R.id.imageView1);
 	    

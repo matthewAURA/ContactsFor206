@@ -34,39 +34,40 @@ public class EditTextArrayAdapter extends ArrayAdapter<EditTextParameter> {
         }
 	    
 	    final EditText display = (EditText)convertView.findViewById(R.id.fieldEditText);
+	    final TextView text = (TextView)convertView.findViewById(R.id.fieldTextName);
 	    
 	    if (display != null && contact != null){
 	    	display.setText(data.getEditText().getText());	    
+	    	text.setText(data.getTextView().getText());
+	    }
 	    
-        //Because of the fact that the editText objects are in a listview, we need to constantly be setting their value
-	    //based on the changes in text - otherwise the android recycler will delete the object so that not too many objects
-	    //are consuming memory in the listview
-        display.addTextChangedListener(new TextWatcher(){
+	    display.addTextChangedListener(new TextWatcher(){
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
-
+				// TODO Auto-generated method stub
+				
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
 					int arg2, int arg3) {
+				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-				if (contact.getById(data.getParameter()) != null){
-					contact.getById(data.getParameter()).setValue(arg0.toString());
-				}else{
-					contact.addParameter(arg0.toString(), data.getParameter());
-				}
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2,int arg3) {
+			        if (contact.getById(data.getParameter()) != null){
+			                contact.getById(data.getParameter()).setValue(arg0.toString());
+			        }else{
+			                contact.addParameter(arg0.toString(), data.getParameter());
+			        }
 			}
-        	
-        	
-        });
-	    }
+	    	
+	    });
+	    
+	    
 	    return convertView;
 	}
 	

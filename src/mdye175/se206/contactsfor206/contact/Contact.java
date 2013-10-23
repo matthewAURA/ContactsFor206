@@ -18,34 +18,14 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 	private List<ContactDataValue> dataValues;
 	private int id;
 	
-	public Contact(String name,String number){
-		//Set up list to store the data associated with this contact (name, phonenumber etc)
-		this();
-		this.dataValues.add(new ContactDataValue(name,ContactDataValue.Parameter.FirstName));
-		//Only add the phone number if it is valid (i.e. not an empty string)
-		if (number.length() > 0){
-			this.dataValues.add(new ContactDataValue(number,ContactDataValue.Parameter.PhoneNumber));
-		}
-		this.id = this.hashCode();
+		
+	public int getId() {
+		return id;
 	}
-	
-	public Contact(String name,String number,String email){
-		this(name,number);
-		if (email.length() > 0){
-			this.dataValues.add(new ContactDataValue(email,ContactDataValue.Parameter.Email));
-		}
-	}
-	
-	public Contact(String name,String number,String email,String address){
-		this(name,number,email);
-		if (address.length() > 0){
-			this.dataValues.add(new ContactDataValue(email,ContactDataValue.Parameter.Address));
-		}
-	}
-	
-	public Contact() {
-		this.dataValues = new ArrayList<ContactDataValue>();
 
+	public Contact(int id) {
+		this.dataValues = new ArrayList<ContactDataValue>();
+		this.id = id;
 	}
 
 	public ContactDataValue getById(ContactDataValue.Parameter p){

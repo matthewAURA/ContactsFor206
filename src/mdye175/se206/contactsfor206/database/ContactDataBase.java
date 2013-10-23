@@ -22,8 +22,13 @@ public class ContactDataBase extends AsyncTask<DatabaseOperation,Integer,Long>{
 		for (DatabaseOperation o: params){
 			o.doOperation(contactDB);
 		}
+		return (long) params.length;
 		
-		return null;
 	}
+	
+
+	
+	protected void onPostExecute(Long result) {}
+
 
 }

@@ -10,9 +10,10 @@ import mdye175.se206.contactsfor206.SortMethodList;
 import mdye175.se206.contactsfor206.contact.Contact;
 import mdye175.se206.contactsfor206.contact.ContactDataValue;
 import mdye175.se206.contactsfor206.contact.ContactView;
+import mdye175.se206.contactsfor206.contact.ContactViewFactory;
 import mdye175.se206.contactsfor206.contact.FirstNameComparator;
 import mdye175.se206.contactsfor206.contact.NumberComparator;
-import mdye175.se206.contactsfor206.database.AddContactOperation;
+import mdye175.se206.contactsfor206.database.WriteContactOperation;
 import mdye175.se206.contactsfor206.database.ContactDataBase;
 import mdye175.se206.contactsfor206.database.ReadContactsOperation;
 import android.animation.ObjectAnimator;
@@ -21,6 +22,7 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -49,7 +51,7 @@ public class ViewContactsActivity extends FragmentActivity implements
 	private ContactView activeEditContact;
 	private static final int STATIC_EDIT_CONTACT_IDENTIFIER = 32414;
 	private ContactDataBase database;
-	
+	private ContactViewFactory factory;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,19 +59,21 @@ public class ViewContactsActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_view_contacts);
 		viewContacts = (ListView)findViewById(R.id.listView1);
 		sort = new SortMethodList(this,android.R.layout.simple_list_item_1);
-		
 		viewContacts.setItemsCanFocus(false);
 		
-		//Create Database
-		this.database = new ContactDataBase(this.getApplicationContext(), dbName, null, 1);
 		
-		//Add a test contact to the db;
-		Contact testContact = new Contact();
-		for (ContactDataValue.Parameter p: ContactDataValue.Parameter.values()){
-			testContact.addParameter(p.toString(),p);
-		}
-		AddContactOperation debugAdd = new AddContactOperation(testContact);
-		database.execute(debugAdd);
+		//Set up contacts arrays
+		contacts = new ContactsArrayAdapter(this, android.R.layout.simple_list_item_1);
+		viewContacts.setAdapter(contacts);
+
+		
+		//Set up view factory
+		factory = new ContactViewFactory(contacts.getContext());
+		
+		
+		//For now, just print out what is in the database to the console window
+		ReadContactsOperation debug = new ReadContactsOperation();
+		database = (ContactDataBase) new ContactDataBase(this.getApplicationContext(),dbName,null,1).execute(debug);
 		
 		try {
 			database.get();
@@ -81,23 +85,16 @@ public class ViewContactsActivity extends FragmentActivity implements
 			e.printStackTrace();
 		}
 		
-		//For now, just print out what is in the database to the console window
-		ReadContactsOperation debug = new ReadContactsOperation();
+		
 		List<Contact> results;
 		results = debug.getResults();
+		Log.i("reading contacts",String.valueOf(results.size()));
 		for (Contact c: results){
-			Log.i("contacts",c.toString());
+			contacts.add(factory.createFromContact(c));
+			viewContacts.invalidate();
 		}
 		
-		//Set up contacts objects
-		contacts = new ContactsArrayAdapter(this, android.R.layout.simple_list_item_1);
-		viewContacts.setAdapter(contacts);
-		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Tom","34 2135 243534")));
-		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Bob","13243 31145")));
-		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Bill","1750 51351 51")));
-		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Alice","4141 565 675","alice@gmail.com")));
-		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Frank","51564742")));
-		contacts.add(new ContactView(viewContacts.getContext(),new Contact("Joe","","joe@meat.com")));
+		
 
 			
 		//Set up a listener to change view when a contact is selected
@@ -173,7 +170,7 @@ public class ViewContactsActivity extends FragmentActivity implements
 		MenuItem addNew = menu.findItem(R.id.item1);
 		Intent intent = new Intent(this,EditContactActivity.class);
 		Bundle b = new Bundle();
-		b.putSerializable("contact", new Contact("","","",""));
+		b.putSerializable("contact", new Contact(this.contacts.getCount()));
 		intent.putExtras(b);
 		addNew.setIntent(intent);
 		return true;
@@ -190,7 +187,7 @@ public class ViewContactsActivity extends FragmentActivity implements
 	
 	public boolean onOptionsItemSelected(MenuItem menu){
 		if (menu.getItemId() == R.id.item1){
-			this.activeEditContact = new ContactView(this, new Contact("","","",""));
+			this.activeEditContact = new ContactView(this, new Contact(this.contacts.getCount()));
 			this.contacts.add(activeEditContact);
 			this.startActivityForResult(menu.getIntent(), ViewContactsActivity.STATIC_EDIT_CONTACT_IDENTIFIER);
 		}
@@ -214,6 +211,19 @@ public class ViewContactsActivity extends FragmentActivity implements
 		
 	}
 	
+	private void saveContact(Contact contact){
+		//Create Database
+		this.database = new ContactDataBase(this.getApplicationContext(), dbName, null, 1);
+		
+		//Add a test contact to the db;
+		for (ContactDataValue.Parameter p: ContactDataValue.Parameter.values()){
+			contact.addParameter("test",p);
+		}
+		WriteContactOperation debugAdd = new WriteContactOperation(contact);
+		database = (ContactDataBase) database.execute(debugAdd);
+	}
+	
+	
 	@Override 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -226,6 +236,7 @@ public class ViewContactsActivity extends FragmentActivity implements
 	    	  activeEditContact.setContact(contact);
 	    	  viewContacts.invalidateViews();
 	    	  contacts.sort();
+	    	  saveContact(contact);
 	    	  Log.i("contacts","successfully handled incoming contact");
 	      } 
 	      break; 

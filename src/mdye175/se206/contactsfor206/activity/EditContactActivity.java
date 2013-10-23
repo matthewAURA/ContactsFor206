@@ -3,6 +3,7 @@ package mdye175.se206.contactsfor206.activity;
 import java.io.Serializable;
 
 import mdye175.se206.contactsfor206.EditTextArrayAdapter;
+
 import mdye175.se206.contactsfor206.EditTextParameter;
 import mdye175.se206.contactsfor206.R;
 import mdye175.se206.contactsfor206.R.id;
@@ -47,7 +48,7 @@ public class EditContactActivity extends Activity {
 		//EditTextArrayAdapter editors = new EditTextArrayAdapter(this, android.R.layout.simple_list_item_1,contact);
 		//fieldsList.setAdapter(editors);
 		
-		ArrayAdapter<View> listViews = new ArrayAdapter<View>(this,android.R.layout.simple_list_item_1);
+		ArrayAdapter<EditTextParameter> listViews = new EditTextArrayAdapter(this,android.R.layout.simple_list_item_1, contact);
 		fieldsList.setAdapter(listViews);
 		fieldsList.setFocusable(false);
 		fieldsList.setItemsCanFocus(true);
@@ -57,16 +58,14 @@ public class EditContactActivity extends Activity {
 		
 		//Add in fields
 		for (ContactDataValue.Parameter p : ContactDataValue.Parameter.values()){
-			View v = inflater.inflate(R.layout.edit_contact_textfield, null);
-			listViews.add(v);
-			EditText edit = (EditText) v.findViewById(R.id.fieldEditText);
-			TextView textView = (TextView) v.findViewById(R.id.fieldTextName);
 			
-			textView.setText(p.toString());
+			String editText = "";
 			
 			if (contact.getById(p) != null)
-				edit.setText(contact.getById(ContactDataValue.Parameter.FirstName).getValue());
-			listViews.notifyDataSetChanged();
+				editText = (contact.getById(p).getValue());
+			
+			EditTextParameter editTextView = new EditTextParameter(listViews.getContext(), p.toString(), editText, p);
+			listViews.add(editTextView);
 		}
 	
 		//Set up save button and callback
