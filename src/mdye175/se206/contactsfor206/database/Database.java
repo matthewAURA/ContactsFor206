@@ -1,6 +1,7 @@
 package mdye175.se206.contactsfor206.database;
 
 import mdye175.se206.contactsfor206.database.ContactDataBase.Column;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,11 +23,13 @@ public class Database extends SQLiteOpenHelper{
 		//Strings for creating and deleting tables
 		public String create_table;
 		public static final String delete_table = "DROP TABLE " + table_name;
+
+		public static final String ID_COLUMN = "_id";
 		
 		public Database(Context context, String name, CursorFactory factory,
 				int version) {
 			super(context, name, factory, version);
-			create_table = "create table " + table_name + " (";
+			create_table = "create table " + table_name + " (" + ID_COLUMN + "integer primary key autoincrement, ";
 			for (String i: columns){
 				create_table += " ";
 				create_table += i;
@@ -50,7 +53,10 @@ public class Database extends SQLiteOpenHelper{
 		}
 		
 		public Cursor query(String [] columns, String selection,String [] selectionArgs,String groupBy,String having, String orderBy){
-			return db.query(create_table, columns, selection, selectionArgs, groupBy, having, orderBy);
+			return db.query(table_name, columns, selection, selectionArgs, groupBy, having, orderBy);
 		}
-
+		
+		public long insert(ContentValues values){
+			return db.insert(table_name, null, values);
+		}
 	}

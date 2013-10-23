@@ -1,29 +1,25 @@
 package mdye175.se206.contactsfor206.activity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import mdye175.se206.contactsfor206.ContactsArrayAdapter;
 import mdye175.se206.contactsfor206.R;
 import mdye175.se206.contactsfor206.SortMethodList;
-import mdye175.se206.contactsfor206.R.id;
-import mdye175.se206.contactsfor206.R.layout;
-import mdye175.se206.contactsfor206.R.menu;
 import mdye175.se206.contactsfor206.contact.Contact;
 import mdye175.se206.contactsfor206.contact.ContactView;
 import mdye175.se206.contactsfor206.contact.NameComparator;
 import mdye175.se206.contactsfor206.contact.NumberComparator;
+import mdye175.se206.contactsfor206.database.AddContactOperation;
 import mdye175.se206.contactsfor206.database.ContactDataBase;
 import mdye175.se206.contactsfor206.database.ReadContactsOperation;
-
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -65,6 +61,20 @@ public class ViewContactsActivity extends FragmentActivity implements
 		
 		//Create Database
 		this.database = new ContactDataBase(this.getApplicationContext(), dbName, null, 1);
+		
+		//Add a test contact to the db;
+		AddContactOperation debugAdd = new AddContactOperation(new Contact("testName","testNumber"));
+		database.execute(debugAdd);
+		
+		try {
+			database.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//For now, just print out what is in the database to the console window
 		ReadContactsOperation debug = new ReadContactsOperation();

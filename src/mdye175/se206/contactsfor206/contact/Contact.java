@@ -49,6 +49,11 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 		}
 		this.sortData();
 	}
+	
+	public Contact() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public ContactDataValue getById(ContactDataValue.Parameter p){
 		for (ContactDataValue i:this.dataValues){
 			if (i.getID().equals(p)){
