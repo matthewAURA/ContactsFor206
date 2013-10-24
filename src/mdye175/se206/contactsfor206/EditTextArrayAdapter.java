@@ -27,9 +27,9 @@ public class EditTextArrayAdapter extends ArrayAdapter<EditTextParameter> {
 	
 	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		final EditTextParameter data = this.getItem(position);
-	    if (convertView == null) {
+	    if (convertView == null) {	    	
 	    	convertView = inflater.inflate(R.layout.edit_contact_textfield, parent, false);
         }
 	    
@@ -37,39 +37,36 @@ public class EditTextArrayAdapter extends ArrayAdapter<EditTextParameter> {
 	    final TextView text = (TextView)convertView.findViewById(R.id.fieldTextName);
 	    
 	    if (display != null && contact != null){
-	    	display.setText(data.getEditText().getText());	    
+	    	display.setText(data.getEditText().getText());	   
 	    	text.setText(data.getTextView().getText());
 	    }
-	    
-	    display.addTextChangedListener(new TextWatcher(){
+	    display.setOnFocusChangeListener(new OnFocusChangeListener(){
 
 			@Override
-			public void afterTextChanged(Editable arg0) {
+			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2,int arg3) {
-			        if (contact.getById(data.getParameter()) != null){
-			                contact.getById(data.getParameter()).setValue(arg0.toString());
-			        }else{
-			                contact.addParameter(arg0.toString(), data.getParameter());
-			        }
+				if (!hasFocus){
+					int val = v.getId();
+					EditText p = (EditText) v;
+					EditTextParameter param = getItem(position);
+					if (contact.getById(param.getParameter()) == null){
+						contact.addParameter(p.getText().toString(),param.getParameter());
+					}else{
+						contact.getById(param.getParameter()).setValue(p.getText().toString());
+					}
+					
+				}
 			}
 	    	
+	    	
 	    });
+	   
 	    
-	    
+	  
 	    return convertView;
 	}
+	
+
 	
 
 }

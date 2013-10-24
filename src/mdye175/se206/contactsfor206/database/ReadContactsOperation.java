@@ -42,6 +42,7 @@ public class ReadContactsOperation implements DatabaseOperation<List> {
 		for (int i=0;i<ContactDataValue.Parameter.values().length;i++){
 			contact.addParameter(cursor.getString(i+1),ContactDataValue.Parameter.values()[i]);
 		}
+		contact.setImageLocation(cursor.getString(cursor.getColumnCount()-1));
 		return contact;
 		
 	}

@@ -15,6 +15,7 @@ import mdye175.se206.contactsfor206.contact.Contact;
 import mdye175.se206.contactsfor206.contact.ContactDataValue;
 import mdye175.se206.contactsfor206.contact.ContactDataValue.Parameter;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -39,8 +40,10 @@ import android.widget.TextView;
 
 public class EditContactActivity extends Activity {
 	private Contact contact;
-
+	private Activity thisActivity = this;
 	private ImageView image;
+	private static int STATIC_GET_IMAGE_ID = 1;
+	private Bundle savedInstanceState;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,17 +57,27 @@ public class EditContactActivity extends Activity {
 		//EditTextArrayAdapter editors = new EditTextArrayAdapter(this, android.R.layout.simple_list_item_1,contact);
 		//fieldsList.setAdapter(editors);
 		
-		ArrayAdapter<EditTextParameter> listViews = new EditTextArrayAdapter(this,android.R.layout.simple_list_item_1, contact);
+		final ArrayAdapter<EditTextParameter> listViews = new EditTextArrayAdapter(this,android.R.layout.simple_list_item_1, contact);
 		fieldsList.setAdapter(listViews);
 		fieldsList.setFocusable(false);
 		fieldsList.setItemsCanFocus(true);
 	
 		image = (ImageView) this.findViewById(R.id.imageView1);
 		if (contact.getImageLocation() != null){
-			image.setImageBitmap(BitmapFactory.decodeFile(contact.getImageLocation()));
+			setImage(Uri.parse(contact.getImageLocation()));
 		}
 
-		
+		image.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.setClass(thisActivity, GetImageActivity.class);
+				startActivityForResult(intent,EditContactActivity.STATIC_GET_IMAGE_ID);
+				
+			}
+			
+		});
 		
 		
 		
@@ -73,9 +86,11 @@ public class EditContactActivity extends Activity {
 			
 			String editText = "";
 			
-			if (contact.getById(p) != null)
+			if (contact.getById(p) != null){
 				editText = (contact.getById(p).getValue());
-			
+			}else{
+				contact.addParameter("", p);
+			}
 			EditTextParameter editTextView = new EditTextParameter(listViews.getContext(), p.toString(), editText, p);
 			listViews.add(editTextView);
 		}
@@ -88,8 +103,10 @@ public class EditContactActivity extends Activity {
 
 			@Override
 			public void onClick(View view) {
+				
+
+				
 				Log.i("contacts onclick",contact.getById(ContactDataValue.Parameter.FirstName).getValue());
-			
 				Intent intent = new Intent();
 				Bundle b = new Bundle();
 				b.putSerializable("contact", contact);
@@ -104,6 +121,29 @@ public class EditContactActivity extends Activity {
 		
 	}
 
+	private void setImage(Uri file){
+		Log.i("Image loading",file.getPath());
+		contact.setImageLocation(file.toString());
+		 BitmapFactory.Options options = new BitmapFactory.Options();
+		 options.inSampleSize = 4;
+		 Bitmap bitmap = null;
+		try {
+			bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(file),null, options);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		image.setImageBitmap(bitmap);
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data){
+		if (requestCode == STATIC_GET_IMAGE_ID && resultCode == Activity.RESULT_OK){
+			Uri file = data.getData();
+			setImage(file);
+		}
+	}
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -111,6 +151,12 @@ public class EditContactActivity extends Activity {
 		return true;
 	}
 	
+	@Override
+    protected void onRestart() {
+        // TODO Auto-generated method stub
+        onCreate(savedInstanceState);
+        super.onRestart();
+    }
 
 
 }

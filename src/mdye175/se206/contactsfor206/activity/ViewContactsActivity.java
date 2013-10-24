@@ -260,7 +260,6 @@ public class ViewContactsActivity extends FragmentActivity implements
 	      if (resultCode == Activity.RESULT_OK) { 
 	    	  Serializable b = data.getSerializableExtra("contact");
 	    	  final Contact contact = (Contact) b;
-	    	  viewContacts.invalidateViews();
 	    	  contacts.sort();
 	    	  removeContactFromDatabase(contact);
 	    	  saveContact(contact);
@@ -271,8 +270,8 @@ public class ViewContactsActivity extends FragmentActivity implements
 	    			  contacts.notifyDataSetChanged();
 	    		  }
 	    	  }
-	    	  
-	    	  
+	    	  contacts.notifyDataSetChanged();
+	    	  this.recreate();
 	      } 
 	      break; 
 	    } 

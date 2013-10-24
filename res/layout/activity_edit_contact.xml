@@ -27,19 +27,17 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fieldsListView"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:text="Button" 
-        android:windowSoftInputMode="adjustPan"/>
+        android:text="Button"
+        android:windowSoftInputMode="adjustPan" />
 
     <ListView
         android:id="@+id/fieldsListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/imageView1"
+        android:layout_above="@+id/saveButton"
         android:focusable="false" >
 
     </ListView>
