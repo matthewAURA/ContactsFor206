@@ -23,18 +23,18 @@ public class ContactDataList extends ArrayAdapter<TextView> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		TextView data = this.getItem(position);
-		
+		data.setFocusable(false);
 		//If we can recycle the view, great, otherwise inflate the view
 	    if (convertView == null) {
 	    	convertView = fInflater.inflate(R.layout.contact_data_text, parent, false);
-        }
+	    }
 	    convertView.setClickable(true);
 	    
 	    //Display the text for the field
 	    TextView display = (TextView)convertView.findViewById(R.id.fieldTextName);
 	    if (display != null)
 	    	display.setText(data.getText());
-	    
+	    display.setFocusable(false);
 	    return convertView;
 	}
 	

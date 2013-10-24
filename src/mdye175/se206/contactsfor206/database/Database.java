@@ -74,4 +74,12 @@ public class Database extends SQLiteOpenHelper{
 		public long insert(ContentValues values){
 			return db.insert(table_name, null, values);
 		}
+
+		public int delete(String selectionString, String [] whereArgs) {
+			return db.delete(this.table_name, selectionString, whereArgs);
+		}
+		
+		public int update(ContentValues values,String whereClause,String[] whereArgs){
+			return db.update(this.table_name, values, whereClause, whereArgs);
+		}
 	}

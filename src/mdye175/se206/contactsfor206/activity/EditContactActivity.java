@@ -1,5 +1,7 @@
 package mdye175.se206.contactsfor206.activity;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import mdye175.se206.contactsfor206.EditTextArrayAdapter;
@@ -17,6 +19,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,12 +33,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class EditContactActivity extends Activity {
 	private Contact contact;
-	
+
+	private ImageView image;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,9 +58,15 @@ public class EditContactActivity extends Activity {
 		fieldsList.setAdapter(listViews);
 		fieldsList.setFocusable(false);
 		fieldsList.setItemsCanFocus(true);
-		
-		LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	
+		image = (ImageView) this.findViewById(R.id.imageView1);
+		if (contact.getImageLocation() != null){
+			image.setImageBitmap(BitmapFactory.decodeFile(contact.getImageLocation()));
+		}
 
+		
+		
+		
 		
 		//Add in fields
 		for (ContactDataValue.Parameter p : ContactDataValue.Parameter.values()){
@@ -82,7 +94,6 @@ public class EditContactActivity extends Activity {
 				Bundle b = new Bundle();
 				b.putSerializable("contact", contact);
 				intent.putExtras(b);
-				intent.putExtra("delete", contact.hashCode());
 				setResult(Activity.RESULT_OK, intent);
 				finish();
 			}
@@ -100,9 +111,6 @@ public class EditContactActivity extends Activity {
 		return true;
 	}
 	
-	public void finish(){
-		super.finish();
-	}
 
 
 }

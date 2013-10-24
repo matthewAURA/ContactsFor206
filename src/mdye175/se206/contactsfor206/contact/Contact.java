@@ -17,8 +17,17 @@ public class Contact implements Serializable,Iterable<ContactDataValue> {
 
 	private List<ContactDataValue> dataValues;
 	private int id;
+	private String imageLocation;
 	
 		
+	public String getImageLocation() {
+		return imageLocation;
+	}
+
+	public void setImageLocation(String imageLocation) {
+		this.imageLocation = imageLocation;
+	}
+
 	public int getId() {
 		return id;
 	}

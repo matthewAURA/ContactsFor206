@@ -4,8 +4,8 @@ package mdye175.se206.contactsfor206;
 import java.util.Comparator;
 
 import mdye175.se206.contactsfor206.contact.Contact;
-import mdye175.se206.contactsfor206.contact.ContactComparator;
 import mdye175.se206.contactsfor206.contact.ContactView;
+import mdye175.se206.contactsfor206.contact.comparator.ContactComparator;
 
 import android.content.Context;
 import android.view.LayoutInflater;

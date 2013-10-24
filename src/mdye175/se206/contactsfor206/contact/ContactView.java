@@ -7,6 +7,7 @@ import mdye175.se206.contactsfor206.R.id;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -77,14 +78,18 @@ public class ContactView extends View implements Serializable {
 	    //I can't for the life of me make the listview elements not clickable - they keep eating the onTouch() objects.
 	    //there is a way, just TODO
     	dataList.setFocusable(false);
-		
+		nameText.setFocusable(false);
     	
     	//Making things invisible when not expanded, potentially a performance hit - something to look at later.
 	    if (this.isExpanded()){	
 	    	image.setVisibility(VISIBLE);
+	    	if (contact.getImageLocation() != null){
+	    		image.setImageBitmap(BitmapFactory.decodeFile(contact.getImageLocation()));
+	    	}
 	    	for (ContactDataValue i:contact){
 		    		if (i.getID() != ContactDataValue.Parameter.FirstName){
 		    		TextView newText = new TextView(dataList.getContext());
+		    		newText.setFocusable(false);
 		    		newText.setText(i.getValue());
 		    		contactData.add(newText);
 		    	}
@@ -93,6 +98,7 @@ public class ContactView extends View implements Serializable {
 	    	image.setVisibility(INVISIBLE);
 	    	if (contact.getCount() > 1){
 	    		TextView newText = new TextView(dataList.getContext());
+	    		newText.setFocusable(false);
 	    		newText.setText(contact.getIndex(1).getValue());
 	    		contactData.add(newText);
 	    	}
@@ -100,13 +106,13 @@ public class ContactView extends View implements Serializable {
 	    }	    
 	}
 	
-	public boolean equals(Object other){
+	/*public boolean equals(Object other){
 		if (other instanceof Contact){
 			return this.contact.equals(other);
 		}else{
 			return false;
 		}
-	}
+	}*/
 	
 
 	public Contact getContact(){
@@ -134,12 +140,6 @@ public class ContactView extends View implements Serializable {
 		this.isExpanded = !this.isExpanded;
 	}
 	
-	
-	//Some issues earlier with views not being correctly drawn when contact data updated, tried to invalidate all children.
-	public void invalidate(){
-		nameText.invalidate();
-		dataList.invalidate();
-		super.invalidate();
-	}
+
 
 }

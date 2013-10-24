@@ -1,5 +1,8 @@
 package mdye175.se206.contactsfor206.activity;
 
+import gesture.ContactSwipeGesture;
+import gesture.ListGestureListener;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -11,8 +14,12 @@ import mdye175.se206.contactsfor206.contact.Contact;
 import mdye175.se206.contactsfor206.contact.ContactDataValue;
 import mdye175.se206.contactsfor206.contact.ContactView;
 import mdye175.se206.contactsfor206.contact.ContactViewFactory;
-import mdye175.se206.contactsfor206.contact.FirstNameComparator;
-import mdye175.se206.contactsfor206.contact.NumberComparator;
+import mdye175.se206.contactsfor206.contact.comparator.FirstNameComparator;
+import mdye175.se206.contactsfor206.contact.comparator.HomeNumberComparator;
+import mdye175.se206.contactsfor206.contact.comparator.LastNameComparator;
+import mdye175.se206.contactsfor206.contact.comparator.MobileNumberComparator;
+import mdye175.se206.contactsfor206.database.DeleteContactOperation;
+import mdye175.se206.contactsfor206.database.EditContactOperation;
 import mdye175.se206.contactsfor206.database.WriteContactOperation;
 import mdye175.se206.contactsfor206.database.ContactDataBase;
 import mdye175.se206.contactsfor206.database.ReadContactsOperation;
@@ -26,9 +33,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -36,7 +46,7 @@ import android.widget.ListView;
 
 
 public class ViewContactsActivity extends FragmentActivity implements
-		ActionBar.OnNavigationListener, AnimatorUpdateListener {
+		ActionBar.OnNavigationListener, AnimatorUpdateListener,ListGestureListener {
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -66,7 +76,6 @@ public class ViewContactsActivity extends FragmentActivity implements
 		contacts = new ContactsArrayAdapter(this, android.R.layout.simple_list_item_1);
 		viewContacts.setAdapter(contacts);
 
-		
 		//Set up view factory
 		factory = new ContactViewFactory(contacts.getContext());
 		
@@ -88,14 +97,19 @@ public class ViewContactsActivity extends FragmentActivity implements
 		
 		List<Contact> results;
 		results = debug.getResults();
-		Log.i("reading contacts",String.valueOf(results.size()));
 		for (Contact c: results){
 			contacts.add(factory.createFromContact(c));
-			viewContacts.invalidate();
 		}
 		
-		
+		//Set up gesture controls
+		final GestureDetector gestureDetector = new GestureDetector(this,new ContactSwipeGesture(viewContacts,this));
+	    OnTouchListener gestureListener = new OnTouchListener() {
+	    public boolean onTouch(View v, MotionEvent event) {
+	    	return gestureDetector.onTouchEvent(event); 
+	    }};
+	    viewContacts.setOnTouchListener(gestureListener);
 
+	
 			
 		//Set up a listener to change view when a contact is selected
 		viewContacts.setOnItemClickListener(new OnItemClickListener(){
@@ -115,7 +129,6 @@ public class ViewContactsActivity extends FragmentActivity implements
 				anim.setDuration(200);
 				anim.addUpdateListener(update);
 				anim.start();
-
 			}		
 		});
 		
@@ -125,7 +138,6 @@ public class ViewContactsActivity extends FragmentActivity implements
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				final ContactView contact = ((ContactView)arg0.getItemAtPosition(arg2));
-				activeEditContact = contact;
 				launchEditActivity(contact.getContact());
 				return false;
 			}			
@@ -140,7 +152,9 @@ public class ViewContactsActivity extends FragmentActivity implements
 		actionBar.setTitle("Sort By...");
 		// Set up the dropdown list navigation in the action bar.
 		sort.add(new FirstNameComparator());
-		sort.add(new NumberComparator());
+		sort.add(new LastNameComparator());
+		sort.add(new HomeNumberComparator());
+		sort.add(new MobileNumberComparator());
 		actionBar.setListNavigationCallbacks(sort,this);
 
 	}
@@ -208,40 +222,67 @@ public class ViewContactsActivity extends FragmentActivity implements
 	@Override
 	public void onAnimationUpdate(ValueAnimator arg0) {
 		viewContacts.invalidateViews();
+	}
+	
+	private void removeContactFromList(int index){
+		removeContactFromDatabase(contacts.getItem(index).getContact());
+		contacts.remove(contacts.getItem(index));
+		contacts.notifyDataSetChanged();
+	}
+	
+	private void removeContactFromDatabase(Contact contact){
+		this.database = new ContactDataBase(this.getApplicationContext(), dbName, null, 1);
+		DeleteContactOperation delete = new DeleteContactOperation(contact);
+		database = (ContactDataBase) database.execute(delete);
 		
 	}
 	
 	private void saveContact(Contact contact){
 		//Create Database
 		this.database = new ContactDataBase(this.getApplicationContext(), dbName, null, 1);
-		
-		//Add a test contact to the db;
 		for (ContactDataValue.Parameter p: ContactDataValue.Parameter.values()){
-			contact.addParameter("test",p);
+			if (contact.getById(p) == null){
+				contact.addParameter("",p);
+			}
 		}
+		
 		WriteContactOperation debugAdd = new WriteContactOperation(contact);
 		database = (ContactDataBase) database.execute(debugAdd);
 	}
 	
+
 	
 	@Override 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 	  super.onActivityResult(requestCode, resultCode, data); 
 	  switch(requestCode) { 
 	    case (ViewContactsActivity.STATIC_EDIT_CONTACT_IDENTIFIER) : { 
 	      if (resultCode == Activity.RESULT_OK) { 
 	    	  Serializable b = data.getSerializableExtra("contact");
 	    	  final Contact contact = (Contact) b;
-	    	  activeEditContact.setContact(contact);
 	    	  viewContacts.invalidateViews();
 	    	  contacts.sort();
+	    	  removeContactFromDatabase(contact);
 	    	  saveContact(contact);
-	    	  Log.i("contacts","successfully handled incoming contact");
+	    	  //Update data
+	    	  for (int i =0;i<contacts.getCount();i++){
+	    		  if (contacts.getItem(i).getContact().equals(contact)){
+	    			  contacts.getItem(i).setContact(contact);
+	    			  contacts.notifyDataSetChanged();
+	    		  }
+	    	  }
+	    	  
+	    	  
 	      } 
 	      break; 
 	    } 
 	  } 
+	}
+
+
+	@Override
+	public void onGesture(int index) {
+		this.removeContactFromList(index);
 	}
 
 }

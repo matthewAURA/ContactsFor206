@@ -16,7 +16,8 @@ public class ContactDataValue implements Comparable<ContactDataValue>,Serializab
 	//We always want certain types, such as name, so we use an enum to define them
 	//This could potentially be it's own class
 	public static enum Parameter implements Serializable{
-		FirstName("firstName"),LastName("lastName"),PhoneNumber("phonenumber"),Email("email"),Address("address"),Other("other");
+		FirstName("firstName"),LastName("lastName"),HomePhoneNumber("phonenumber"),MobilePhoneNumber("mobilenumber"),Email("email"),Address("address");
+		
 		
 	    private final String id;
 	    Parameter(String id) { this.id = id; }
